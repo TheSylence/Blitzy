@@ -40,7 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ICommandNode.cs" />
+    <Compile Include="Commands\CommandNode.cs" />
+    <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="IDatabase.cs" />
+    <Compile Include="INeedDatabaseAccess.cs" />
+    <Compile Include="IProvideCommandNodes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
