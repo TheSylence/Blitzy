@@ -105,9 +105,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Plugins\Database.cs" />
-    <Compile Include="Models\Plugins\DatabaseExtensions.cs" />
-    <Compile Include="Models\Plugins\SchemaGenerator.cs" />
+    <Compile Include="Models\Commands\NameMatcher.cs" />
+    <Compile Include="Models\Db\Database.cs" />
+    <Compile Include="Models\Db\DatabaseExtensions.cs" />
+    <Compile Include="Models\Db\SchemaGenerator.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -117,7 +118,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Plugins\SchemaGenerator.Queries.cs" />
+    <Compile Include="Models\Db\SchemaGenerator.Queries.cs" />
     <None Include="packages.config" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>

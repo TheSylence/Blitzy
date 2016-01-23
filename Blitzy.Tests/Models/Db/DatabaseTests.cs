@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Blitzy.Models.Plugins;
+using Blitzy.Models.Db;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Blitzy.Tests.Models.Plugins
+namespace Blitzy.Tests.Models.Db
 {
 	[TestClass]
 	public class DatabaseTests
 	{
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public async Task CleanupRemovesExpiredEntries()
 		{
 			// Arrange
@@ -33,7 +33,7 @@ namespace Blitzy.Tests.Models.Plugins
 			}
 		}
 
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public void DatabaseFileCanBeOpenedAndClosed()
 		{
 			// Arrange
@@ -45,7 +45,7 @@ namespace Blitzy.Tests.Models.Plugins
 			}
 		}
 
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public async Task GetConvertsValue()
 		{
 			// Arrange
@@ -62,7 +62,7 @@ namespace Blitzy.Tests.Models.Plugins
 			}
 		}
 
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public async Task GetReturnsExistingValue()
 		{
 			// Arrange
@@ -79,7 +79,7 @@ namespace Blitzy.Tests.Models.Plugins
 			}
 		}
 
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public async Task GetReturnsNullForNonExistingKey()
 		{
 			// Arrange
@@ -94,7 +94,7 @@ namespace Blitzy.Tests.Models.Plugins
 			}
 		}
 
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public void InvalidFileNameThrows()
 		{
 			// Arrange
@@ -107,7 +107,7 @@ namespace Blitzy.Tests.Models.Plugins
 			Assert.IsNotNull( ex );
 		}
 
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public async Task KeyExistanceIsCorrectlyRead()
 		{
 			// Arrange
@@ -127,7 +127,7 @@ namespace Blitzy.Tests.Models.Plugins
 			}
 		}
 
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public async Task RemoveDeletesRecordFromDatabase()
 		{
 			// Arrange
@@ -145,7 +145,7 @@ namespace Blitzy.Tests.Models.Plugins
 			}
 		}
 
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public async Task RemovingNonExistingKeyDoesNothing()
 		{
 			// Arrange
@@ -160,7 +160,7 @@ namespace Blitzy.Tests.Models.Plugins
 			}
 		}
 
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public async Task SetAddsNewEntry()
 		{
 			// Arrange
@@ -176,7 +176,7 @@ namespace Blitzy.Tests.Models.Plugins
 			}
 		}
 
-		[TestMethod, TestCategory( "Models.Plugins" )]
+		[TestMethod, TestCategory( "Models.Db" )]
 		public async Task SetEditsExistingEntry()
 		{
 			// Arrange
@@ -191,6 +191,27 @@ namespace Blitzy.Tests.Models.Plugins
 				// Assert
 				var fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'key'", connection );
 				Assert.AreEqual( "345", fromDb.ToString() );
+			}
+		}
+
+		[TestMethod, TestCategory( "Models.Db" )]
+		public async Task SetUsesCorrectExpiryTime()
+		{
+			// Arrange
+			using( var connection = DatabaseHelper.OpenMemoryConnection() )
+			using( var db = new Database( connection ) )
+			{
+				// Act
+				await db.Set( "ex_now", 123, DateTime.Now );
+				await db.Set( "no_ex", 123 );
+
+				// Assert
+				var fromDb = DatabaseHelper.SelectSingle( "SELECT expires FROM data WHERE key = 'no_ex'", connection );
+				Assert.AreEqual( DateTime.MaxValue.Ticks, fromDb );
+
+				fromDb = DatabaseHelper.SelectSingle( "SELECT expires FROM data WHERE key = 'ex_now'", connection );
+				Assert.AreNotEqual( DateTime.MaxValue.Ticks, fromDb );
+				Assert.AreNotEqual( DateTime.Now.Ticks, fromDb );
 			}
 		}
 	}

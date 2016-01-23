@@ -62,7 +62,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DatabaseHelper.cs" />
-    <Compile Include="Models\Plugins\DatabaseTests.cs" />
+    <Compile Include="Models\Commands\NameMatcherTests.cs" />
+    <Compile Include="Models\Db\DatabaseTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

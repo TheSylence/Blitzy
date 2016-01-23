@@ -1,9 +1,10 @@
-﻿using Blitzy.PluginInterfaces;
-using System;
+﻿using System;
 using System.Data.SQLite;
 using System.Threading.Tasks;
+using Blitzy.Models.Plugins;
+using Blitzy.PluginInterfaces;
 
-namespace Blitzy.Models.Plugins
+namespace Blitzy.Models.Db
 {
 	internal class Database : IDatabase, IDisposable
 	{
