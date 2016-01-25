@@ -109,11 +109,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\CommandTextBox.cs" />
+    <Compile Include="Behaviors\ScrollSelectedItemIntoView.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Models\Commands\CommandTree.cs" />
+    <Compile Include="Models\Db\DatabaseProvider.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Main\CommandController.cs" />
+    <Compile Include="ViewModels\Main\InputProcessor.cs" />
+    <Compile Include="ViewModels\Main\MainViewModel.cs" />
     <Compile Include="Views\GenericTemplateSelector.cs" />
     <Compile Include="Views\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
@@ -130,9 +139,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Injections\ModelInjectionModule.cs" />
-    <Compile Include="Injections\UtilityInjectionModule.cs" />
-    <Compile Include="Injections\ViewModelInjectionModule.cs" />
     <Compile Include="Models\Commands\NameMatcher.cs" />
     <Compile Include="Models\Db\Database.cs" />
     <Compile Include="Models\Db\DatabaseExtensions.cs" />
@@ -142,7 +148,7 @@
     <Compile Include="Utilities\Assembly.cs" />
     <Compile Include="Utilities\FileSystem.cs" />
     <Compile Include="Utilities\TypeActivator.cs" />
-    <Compile Include="ViewModels\CommandViewModel.cs" />
+    <Compile Include="ViewModels\Main\CommandViewModel.cs" />
     <Compile Include="ViewModels\Settings\AboutViewModel.cs" />
     <Compile Include="ViewModels\Settings\CoreSettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\PluginListViewModel.cs" />

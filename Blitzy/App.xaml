@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Blitzy"
              xmlns:viewModels="clr-namespace:Blitzy.ViewModels"
-             StartupUri="Views/SettingsDialog.xaml">
+             StartupUri="Views/MainWindow.xaml">
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
