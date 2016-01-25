@@ -4,9 +4,59 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Blitzy"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:vm="clr-namespace:Blitzy.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<DockPanel LastChildFill="True">
+			<Button Style="{DynamicResource MetroCircleButtonStyle}" DockPanel.Dock="Right" Width="32" Height="32" VerticalAlignment="Center"
+					FocusManager.FocusedElement="{Binding ElementName=txtInput}" Command="{Binding SettingsCommand}">
+				<Rectangle Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Width="16" Height="16">
+					<Rectangle.OpacityMask>
+						<VisualBrush Visual="{StaticResource appbar_settings}" Stretch="Fill" />
+					</Rectangle.OpacityMask>
+				</Rectangle>
+			</Button>
+
+			<TextBox Margin="5" x:Name="txtInput" AcceptsTab="True" Text="{Binding InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<i:Interaction.Behaviors>
+					<!--<behaviors:CommandTextBox Controller="{Binding CommandController}" />-->
+				</i:Interaction.Behaviors>
+			</TextBox>
+		</DockPanel>
+
+		<ListView Grid.Row="2" Margin="2" DataContext="{Binding CommandController}" ItemsSource="{Binding Commands}"
+				  SelectedItem="{Binding CurrentCommand, Mode=TwoWay}"
+				  SelectedIndex="{Binding CurrentCommandIndex, Mode=TwoWay}">
+			<i:Interaction.Behaviors>
+				<!--<behaviors:ScrollSelectedItemIntoView />-->
+			</i:Interaction.Behaviors>
+			<ListView.ItemTemplate>
+				<DataTemplate DataType="{x:Type vm:CommandViewModel}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding Icon, IsAsync=True}" Margin="5" MaxWidth="24" MaxHeight="24" Stretch="Uniform" />
+
+						<TextBlock Text="{Binding Name}" Grid.Column="1" Grid.Row="0" FontWeight="Bold" />
+						<TextBlock Text="{Binding Description}" Grid.Column="1" Grid.Row="1" />
+					</Grid>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</Grid>
 </Window>
