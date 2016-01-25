@@ -44,8 +44,9 @@
     <Compile Include="Commands\CommandNode.cs" />
     <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="IDatabase.cs" />
-    <Compile Include="INeedDatabaseAccess.cs" />
-    <Compile Include="IProvideCommandNodes.cs" />
+    <Compile Include="IPlugin.cs" />
+    <Compile Include="IPluginHost.cs" />
+    <Compile Include="IProvideUserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

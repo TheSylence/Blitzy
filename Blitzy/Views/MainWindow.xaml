@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:vm="clr-namespace:Blitzy.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Blitzy" Height="350" Width="525">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
