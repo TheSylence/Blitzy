@@ -1,7 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
+using Blitzy.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using Ninject;
 
 namespace Blitzy.ViewModels.Main
 {
@@ -21,8 +24,10 @@ namespace Blitzy.ViewModels.Main
 			InputProcessor = processor;
 		}
 
+
 		private void ExecuteSettingsCommand()
 		{
+			ServiceRepository.SettingsDialog.Show();
 		}
 
 		public ICommandController CommandController { get; }
@@ -31,11 +36,7 @@ namespace Blitzy.ViewModels.Main
 
 		public string InputText
 		{
-			[DebuggerStepThrough]
-			get
-			{
-				return _InputText;
-			}
+			[DebuggerStepThrough] get { return _InputText; }
 			set
 			{
 				if( _InputText == value )
@@ -49,12 +50,13 @@ namespace Blitzy.ViewModels.Main
 			}
 		}
 
+		[Inject]
+		public IServiceRepository ServiceRepository { get; set; }
+
 		public ICommand SettingsCommand => _SettingsCommand ?? ( _SettingsCommand = new RelayCommand( ExecuteSettingsCommand ) );
 
-		[DebuggerBrowsable( DebuggerBrowsableState.Never )]
-		private string _InputText;
+		[DebuggerBrowsable( DebuggerBrowsableState.Never )] private string _InputText;
 
-		[DebuggerBrowsable( DebuggerBrowsableState.Never )]
-		private RelayCommand _SettingsCommand;
+		[DebuggerBrowsable( DebuggerBrowsableState.Never )] private RelayCommand _SettingsCommand;
 	}
 }

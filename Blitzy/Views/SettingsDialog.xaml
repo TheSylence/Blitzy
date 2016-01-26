@@ -7,10 +7,20 @@
         xmlns:settings="clr-namespace:Blitzy.ViewModels.Settings"
         xmlns:viewModels="clr-namespace:Blitzy.ViewModels" GlowBrush="{DynamicResource AccentColorBrush}"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:lex="http://wpflocalizeextension.codeplex.com" lex:ResxLocalizationProvider.DefaultAssembly="Blitzy"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviors="clr-namespace:Blitzy.Behaviors"
+        xmlns:behaviours="http://metro.mahapps.com/winfx/xaml/shared"
+        lex:ResxLocalizationProvider.DefaultAssembly="Blitzy"
 		lex:ResxLocalizationProvider.DefaultDictionary="Strings" WindowStartupLocation="CenterOwner"
         mc:Ignorable="d" DataContext="{Binding SettingsDialog, Source={StaticResource Locator}}"
         Title="{lex:Loc Settings}" Height="480" Width="640">
+	<i:Interaction.Behaviors>
+		<behaviors:CloseWindow />
+		<behaviours:BorderlessWindowBehavior />
+		<behaviours:WindowsSettingBehaviour />
+		<behaviours:GlowWindowBehavior />
+	</i:Interaction.Behaviors>
 	<Window.Resources>
 		<Style TargetType="TreeViewItem" d:DataContext="{d:DesignInstance viewModels:TreeViewItemViewModel}">
 			<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />

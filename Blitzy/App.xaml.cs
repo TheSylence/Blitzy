@@ -8,6 +8,7 @@ using Blitzy.ViewModels.Main;
 using Blitzy.ViewModels.Settings;
 using Ninject;
 using System.Windows;
+using Blitzy.Services;
 
 namespace Blitzy
 {
@@ -40,6 +41,9 @@ namespace Blitzy
 			kernel.Bind<ISettingsDialogViewModel>().To<SettingsDialogViewModel>();
 			kernel.Bind<ICommandController>().To<CommandController>();
 			kernel.Bind<IInputProcessor>().To<InputProcessor>();
+
+			kernel.Bind<IServiceRepository>().To<ServiceRepository>();
+			kernel.Bind<ISettingsDialogService>().To<SettingsDialogService>();
 
 			return kernel;
 		}

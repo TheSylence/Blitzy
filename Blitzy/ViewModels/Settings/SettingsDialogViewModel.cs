@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -8,7 +9,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Blitzy.ViewModels.Settings
 {
-	internal interface ISettingsDialogViewModel
+	internal interface ISettingsDialogViewModel : IWindowController
 	{
 		ICommand CancelCommand { get; }
 		ICommand SaveCommand { get; }
@@ -18,6 +19,7 @@ namespace Blitzy.ViewModels.Settings
 
 	internal class SettingsDialogViewModel : ObservableObject, ISettingsDialogViewModel
 	{
+		public event EventHandler<CloseEventArgs> CloseRequested;
 		public SettingsDialogViewModel( IPluginContainer pluginContainer )
 		{
 			TopLevelItems = new ObservableCollection<ITreeViewItemViewModel>
@@ -41,10 +43,12 @@ namespace Blitzy.ViewModels.Settings
 
 		private void ExecuteCancelCommand()
 		{
+			CloseRequested?.Invoke( this, CloseEventArgs.Cancel );
 		}
 
 		private void ExecuteSaveCommand()
 		{
+			CloseRequested?.Invoke( this, CloseEventArgs.Ok );
 		}
 
 		private void Item_SelectionChanged( object sender, TreeViewSelectionEventArgs e )

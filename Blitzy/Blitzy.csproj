@@ -109,6 +109,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\CloseWindow.cs" />
     <Compile Include="Behaviors\CommandTextBox.cs" />
     <Compile Include="Behaviors\ScrollSelectedItemIntoView.cs" />
     <Compile Include="Constants.cs" />
@@ -120,6 +121,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\ServiceRepository.cs" />
+    <Compile Include="Services\SettingsDialogService.cs" />
+    <Compile Include="ViewModels\IWindowController.cs" />
     <Compile Include="ViewModels\Main\CommandController.cs" />
     <Compile Include="ViewModels\Main\InputProcessor.cs" />
     <Compile Include="ViewModels\Main\MainViewModel.cs" />
