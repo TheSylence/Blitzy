@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Blitzy.Models;
 using Blitzy.Models.Plugins;
+using Blitzy.ViewModels.Settings.Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Blitzy.ViewModels.Settings
 {
-	internal interface ISettingsDialogViewModel : IWindowController
+	internal interface ISettingsDialogViewModel : IWindowController, ILoadCallback
 	{
 		ICommand CancelCommand { get; }
 		ICommand SaveCommand { get; }
@@ -19,15 +22,23 @@ namespace Blitzy.ViewModels.Settings
 
 	internal class SettingsDialogViewModel : ObservableObject, ISettingsDialogViewModel
 	{
-		public event EventHandler<CloseEventArgs> CloseRequested;
-		public SettingsDialogViewModel( IPluginContainer pluginContainer )
+		public SettingsDialogViewModel( ISettings settings, IPluginContainer pluginContainer )
 		{
-			TopLevelItems = new ObservableCollection<ITreeViewItemViewModel>
-			{
-				new CoreSettingsViewModel(),
-				new PluginListViewModel( pluginContainer ),
-				new AboutViewModel()
-			};
+			Settings = settings;
+			PluginContainer = pluginContainer;
+
+			TopLevelItems = new ObservableCollection<ITreeViewItemViewModel>();
+		}
+
+		public event EventHandler<CloseEventArgs> CloseRequested;
+
+		public async Task OnLoad( object data )
+		{
+			await Settings.Load();
+
+			TopLevelItems.Add( new CoreSettingsViewModel( Settings ) );
+			TopLevelItems.Add( new PluginListViewModel( Settings, PluginContainer ) );
+			TopLevelItems.Add( new AboutViewModel() );
 
 			foreach( var item in TopLevelItems )
 			{
@@ -57,13 +68,11 @@ namespace Blitzy.ViewModels.Settings
 		}
 
 		public ICommand CancelCommand => _CancelCommand ?? ( _CancelCommand = new RelayCommand( ExecuteCancelCommand ) );
-
 		public ICommand SaveCommand => _SaveCommand ?? ( _SaveCommand = new RelayCommand( ExecuteSaveCommand, CanExecuteSaveCommand ) );
 
 		public ITreeViewItemViewModel SelectedItem
 		{
-			[DebuggerStepThrough]
-			get { return _SelectedItem; }
+			[DebuggerStepThrough] get { return _SelectedItem; }
 			set
 			{
 				if( _SelectedItem == value )
@@ -77,14 +86,13 @@ namespace Blitzy.ViewModels.Settings
 		}
 
 		public ICollection<ITreeViewItemViewModel> TopLevelItems { get; }
+		private readonly IPluginContainer PluginContainer;
+		private readonly ISettings Settings;
 
-		[DebuggerBrowsable( DebuggerBrowsableState.Never )]
-		private RelayCommand _CancelCommand;
+		[DebuggerBrowsable( DebuggerBrowsableState.Never )] private RelayCommand _CancelCommand;
 
-		[DebuggerBrowsable( DebuggerBrowsableState.Never )]
-		private RelayCommand _SaveCommand;
+		[DebuggerBrowsable( DebuggerBrowsableState.Never )] private RelayCommand _SaveCommand;
 
-		[DebuggerBrowsable( DebuggerBrowsableState.Never )]
-		private ITreeViewItemViewModel _SelectedItem;
+		[DebuggerBrowsable( DebuggerBrowsableState.Never )] private ITreeViewItemViewModel _SelectedItem;
 	}
 }

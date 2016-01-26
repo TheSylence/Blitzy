@@ -1,4 +1,5 @@
-﻿using Blitzy.Models.Plugins;
+﻿using Blitzy.Models;
+using Blitzy.Models.Plugins;
 using Blitzy.PluginInterfaces;
 using Blitzy.Resources;
 
@@ -6,7 +7,7 @@ namespace Blitzy.ViewModels.Settings
 {
 	internal class PluginListViewModel : TreeViewItemViewModel
 	{
-		public PluginListViewModel( IPluginContainer pluginContainer ) : base( null, Strings.Plugins )
+		public PluginListViewModel( ISettings settings, IPluginContainer pluginContainer ) : base( null, Strings.Plugins )
 		{
 			Container = pluginContainer;
 		}

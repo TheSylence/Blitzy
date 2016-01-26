@@ -34,13 +34,15 @@ namespace Blitzy.Models
 		/// </summary>
 		bool CloseOnFocusLost { get; set; }
 
+		IDatabase Database { get; }
+
 		/// <summary>
-		/// Hotkey that is used to bring up the window
+		///     Hotkey that is used to bring up the window
 		/// </summary>
 		string HotKey { get; set; }
 
 		/// <summary>
-		/// Modifier that is used to bring the window
+		///     Modifier that is used to bring the window
 		/// </summary>
 		string HotKeyModifier { get; set; }
 
@@ -53,6 +55,11 @@ namespace Blitzy.Models
 		///     Gets or sets the maximum number items that are shown in the command list.
 		/// </summary>
 		int MaxMatchingItems { get; set; }
+
+		/// <summary>
+		///     Determines whether preview releases are included in update search.
+		/// </summary>
+		bool PreviewUpdates { get; set; }
 
 		/// <summary>
 		///     Determines whether the command list can be scrolled infinitive.
@@ -81,6 +88,7 @@ namespace Blitzy.Models
 		{
 			Accent = await Database.Get<string>( "Blitzy.Settings.Accent" );
 			CheckForUpdates = await Database.Get<bool>( "Blitzy.Settings.CheckForUpdates" );
+			PreviewUpdates = await Database.Get<bool>( "Blitzy.Settings.PreviewUpdates" );
 			CloseAfterExecution = await Database.Get<bool>( "Blitzy.Settings.CloseAfterExecution" );
 			CloseOnEscape = await Database.Get<bool>( "Blitzy.Settings.CloseOnEscape" );
 			CloseOnFocusLost = await Database.Get<bool>( "Blitzy.Settings.CloseOnFocusLost" );
@@ -97,6 +105,7 @@ namespace Blitzy.Models
 		{
 			await Database.Set( "Blitzy.Settings.Accent", Accent );
 			await Database.Set( "Blitzy.Settings.CheckForUpdates", CheckForUpdates );
+			await Database.Set( "Blitzy.Settings.PreviewUpdates", PreviewUpdates );
 			await Database.Set( "Blitzy.Settings.CloseAfterExecution", CloseAfterExecution );
 			await Database.Set( "Blitzy.Settings.CloseOnEscape", CloseOnEscape );
 			await Database.Set( "Blitzy.Settings.CloseOnFocusLost", CloseOnFocusLost );
@@ -110,17 +119,19 @@ namespace Blitzy.Models
 		}
 
 		public string Accent { get; set; }
+
 		public bool CheckForUpdates { get; set; }
 		public bool CloseAfterExecution { get; set; }
 		public bool CloseOnEscape { get; set; }
 		public bool CloseOnFocusLost { get; set; }
+		public IDatabase Database { get; }
 		public string HotKey { get; set; }
 		public string HotKeyModifier { get; set; }
 		public bool KeepInputContent { get; set; }
 		public int MaxMatchingItems { get; set; }
+		public bool PreviewUpdates { get; set; }
 		public bool ScrollThroughCommandList { get; set; }
 		public bool ShowTrayIcon { get; set; }
 		public string Theme { get; set; }
-		private readonly IDatabase Database;
 	}
 }

@@ -70,6 +70,24 @@ namespace Blitzy.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accent.
+        /// </summary>
+        internal static string Accent {
+            get {
+                return ResourceManager.GetString("Accent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically search for and apply updates.
+        /// </summary>
+        internal static string AutomaticallyUpdate {
+            get {
+                return ResourceManager.GetString("AutomaticallyUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Behavior.
         /// </summary>
         internal static string Behavior {
@@ -88,11 +106,56 @@ namespace Blitzy.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check for updates now.
+        /// </summary>
+        internal static string CheckForUpdatesNow {
+            get {
+                return ResourceManager.GetString("CheckForUpdatesNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build on {0}.
+        /// </summary>
+        internal static string InfoBuildDateFormat {
+            get {
+                return ResourceManager.GetString("InfoBuildDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0} ({1}).
+        /// </summary>
+        internal static string InfoVersionFormat {
+            get {
+                return ResourceManager.GetString("InfoVersionFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last time updates were searched: {0}.
+        /// </summary>
+        internal static string LastUpdateCheckFormat {
+            get {
+                return ResourceManager.GetString("LastUpdateCheckFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select an item from the list to view detailed settings.
+        /// </summary>
+        internal static string PleaseSelectAnEntryFromTheList {
+            get {
+                return ResourceManager.GetString("PleaseSelectAnEntryFromTheList", resourceCulture);
             }
         }
         
@@ -124,11 +187,29 @@ namespace Blitzy.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Theme.
+        /// </summary>
+        internal static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updates.
         /// </summary>
         internal static string Updates {
             get {
                 return ResourceManager.GetString("Updates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include preview version in automatic updates.
+        /// </summary>
+        internal static string UpdateToBetaReleases {
+            get {
+                return ResourceManager.GetString("UpdateToBetaReleases", resourceCulture);
             }
         }
         

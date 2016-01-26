@@ -11,12 +11,14 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:behaviors="clr-namespace:Blitzy.Behaviors"
         xmlns:behaviours="http://metro.mahapps.com/winfx/xaml/shared"
+        xmlns:core="clr-namespace:Blitzy.ViewModels.Settings.Core"
         lex:ResxLocalizationProvider.DefaultAssembly="Blitzy"
 		lex:ResxLocalizationProvider.DefaultDictionary="Strings" WindowStartupLocation="CenterOwner"
         mc:Ignorable="d" DataContext="{Binding SettingsDialog, Source={StaticResource Locator}}"
         Title="{lex:Loc Settings}" Height="480" Width="640">
 	<i:Interaction.Behaviors>
 		<behaviors:CloseWindow />
+		<behaviors:CallbackOnLoad Callback="{Binding}" />
 		<behaviours:BorderlessWindowBehavior />
 		<behaviours:WindowsSettingBehaviour />
 		<behaviours:GlowWindowBehavior />
@@ -34,7 +36,7 @@
 		</Style>
 
 		<DataTemplate x:Key="EmptySettingsSections">
-			<TextBlock Text="{lex:Loc PleaseSelectAnEntryFromTheList}"/>
+			<TextBlock Text="{lex:Loc PleaseSelectAnEntryFromTheList}" FontSize="{DynamicResource NormalFontSize}" />
 		</DataTemplate>
 	</Window.Resources>
 	<Grid>
@@ -59,18 +61,67 @@
 		</TreeView>
 
 		<GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" Width="3" Background="{DynamicResource ControlBorderBrush}" />
-		
+
 		<ScrollViewer Grid.Column="2" Grid.Row="0" Margin="5">
 			<ContentControl Content="{Binding SelectedItem}">
 				<ContentControl.ContentTemplateSelector>
 					<local:GenericTemplateSelector>
 						<local:GenericTemplateSelectorItem TemplatedType="settings:AboutViewModel">
 							<DataTemplate DataType="settings:AboutViewModel">
-								<TextBlock Text="About" />
+								<StackPanel Orientation="Vertical">
+									<TextBlock>
+										<TextBlock.Text>
+											<MultiBinding StringFormat="{lex:Loc InfoVersionFormat}">
+												<Binding Path="Version" />
+												<Binding Path="GitVersion" />
+											</MultiBinding>
+										</TextBlock.Text>
+									</TextBlock>
+									<TextBlock Text="{Binding BuildDate, StringFormat={lex:Loc InfoBuildDateFormat}}" />
+								</StackPanel>
+							</DataTemplate>
+						</local:GenericTemplateSelectorItem>
+						<local:GenericTemplateSelectorItem TemplatedType="core:VisualSettingsViewModel">
+							<DataTemplate DataType="core:VisualSettingsViewModel">
+								<StackPanel Orientation="Vertical">
+									<StackPanel.Resources>
+										<DataTemplate x:Key="ColorDataTemplate" DataType="core:ColorItem">
+											<DockPanel>
+												<Ellipse Fill="{Binding ColorBrush}"
+								         Stroke="{Binding BorderBrush}"
+								         Width="18" Height="18" />
+												<TextBlock Text="{Binding Name}" Margin="5,0" />
+											</DockPanel>
+										</DataTemplate>
+									</StackPanel.Resources>
+									<TextBlock Text="{lex:Loc Theme}" FontSize="{DynamicResource NormalFontSize}" />
+									<ComboBox ItemTemplate="{StaticResource ColorDataTemplate}"
+					          SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+					          ItemsSource="{Binding AvailableThemes}" />
+									<TextBlock Text="{lex:Loc Accent}" FontSize="{DynamicResource NormalFontSize}" />
+									<ComboBox ItemTemplate="{StaticResource ColorDataTemplate}"
+					          SelectedItem="{Binding SelectedAccent, Mode=TwoWay}"
+					          ItemsSource="{Binding AvailableAccents}" />
+									<!--<TextBlock Text="{lex:Loc Language}" FontSize="{DynamicResource NormalFontSize}" />
+									<ComboBox ItemsSource="{Binding AvailableLanguages}"
+					          DisplayMemberPath="NativeName"
+					          SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}" />-->
+								</StackPanel>
+							</DataTemplate>
+						</local:GenericTemplateSelectorItem>
+						<local:GenericTemplateSelectorItem TemplatedType="core:UpdateSettingsViewModel">
+							<DataTemplate DataType="core:UpdateSettingsViewModel">
+								<StackPanel Orientation="Vertical">
+									<CheckBox IsChecked="{Binding EnableUpdates}" Content="{lex:Loc AutomaticallyUpdate}" Margin="5" />
+									<CheckBox IsChecked="{Binding IncludeBetaReleases}" Content="{lex:Loc UpdateToBetaReleases}" IsEnabled="{Binding EnableUpdates}" Margin="5" />
+
+									<TextBlock Text="{Binding LastUpdateCheck, StringFormat={lex:Loc LastUpdateCheckFormat}}" Margin="5,10,5,5" />
+									<Button Content="{lex:Loc CheckForUpdatesNow}" Margin="5" />
+								</StackPanel>
 							</DataTemplate>
 						</local:GenericTemplateSelectorItem>
 						<local:GenericTemplateSelectorItem TemplatedType="settings:PluginListViewModel" Template="{StaticResource EmptySettingsSections}" />
-						<local:GenericTemplateSelectorItem TemplatedType="settings:CoreSettingsViewModel" Template="{StaticResource EmptySettingsSections}" />
+						<local:GenericTemplateSelectorItem TemplatedType="core:CoreSettingsViewModel" Template="{StaticResource EmptySettingsSections}" />
 					</local:GenericTemplateSelector>
 				</ContentControl.ContentTemplateSelector>
 			</ContentControl>

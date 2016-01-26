@@ -124,4 +124,31 @@
   <data name="Plugins" xml:space="preserve">
     <value>Plugins</value>
   </data>
+  <data name="InfoVersionFormat" xml:space="preserve">
+    <value>Version {0} ({1})</value>
+  </data>
+  <data name="InfoBuildDateFormat" xml:space="preserve">
+    <value>Build on {0}</value>
+  </data>
+  <data name="AutomaticallyUpdate" xml:space="preserve">
+    <value>Automatically search for and apply updates</value>
+  </data>
+  <data name="UpdateToBetaReleases" xml:space="preserve">
+    <value>Include preview version in automatic updates</value>
+  </data>
+  <data name="PleaseSelectAnEntryFromTheList" xml:space="preserve">
+    <value>Please select an item from the list to view detailed settings</value>
+  </data>
+  <data name="LastUpdateCheckFormat" xml:space="preserve">
+    <value>Last time updates were searched: {0}</value>
+  </data>
+  <data name="CheckForUpdatesNow" xml:space="preserve">
+    <value>Check for updates now</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Accent" xml:space="preserve">
+    <value>Accent</value>
+  </data>
 </root>

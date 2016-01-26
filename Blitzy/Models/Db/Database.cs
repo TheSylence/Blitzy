@@ -43,7 +43,7 @@ namespace Blitzy.Models.Db
 		}
 
 		/// <summary>
-		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
 		/// </summary>
 		public void Dispose()
 		{
@@ -52,7 +52,7 @@ namespace Blitzy.Models.Db
 		}
 
 		/// <summary>
-		/// Retrieves a value from the database
+		///     Retrieves a value from the database
 		/// </summary>
 		/// <typeparam name="TResult">Type to read the value as</typeparam>
 		/// <param name="key">Key of the entry to read</param>
@@ -67,12 +67,17 @@ namespace Blitzy.Models.Db
 
 				object result = await cmd.ExecuteScalarAsync();
 
+				if( result == null || DBNull.Value.Equals( result ) )
+				{
+					return default(TResult);
+				}
+
 				return (TResult)Convert.ChangeType( result, typeof( TResult ) );
 			}
 		}
 
 		/// <summary>
-		/// Checks if a key exisits in the database
+		///     Checks if a key exisits in the database
 		/// </summary>
 		/// <param name="key">The key to check</param>
 		/// <returns>A task representing the asynchronous operation.</returns>
@@ -89,7 +94,7 @@ namespace Blitzy.Models.Db
 		}
 
 		/// <summary>
-		/// Removes a key (and its value) from the database
+		///     Removes a key (and its value) from the database
 		/// </summary>
 		/// <param name="key">Key to remove</param>
 		/// <returns>A task representing the asynchronous operation.</returns>
@@ -105,7 +110,7 @@ namespace Blitzy.Models.Db
 		}
 
 		/// <summary>
-		/// Adds or updates an entry in the database
+		///     Adds or updates an entry in the database
 		/// </summary>
 		/// <param name="key">Key of the entry to add</param>
 		/// <param name="value">Value of the entry</param>

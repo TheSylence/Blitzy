@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Blitzy.Models.Db;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
 using System.Threading.Tasks;
-using Blitzy.Models.Db;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blitzy.Tests.Models.Db
 {
@@ -14,22 +14,24 @@ namespace Blitzy.Tests.Models.Db
 		{
 			// Arrange
 			using( var connection = DatabaseHelper.OpenMemoryConnection() )
-			using( var db = new Database( connection ) )
 			{
-				var ticksOld = DateTime.Now.AddDays( -1 ).Ticks;
-				var ticksNew = DateTime.Now.AddDays( 1 ).Ticks;
-				DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {ticksOld})", connection );
-				DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key1', 123, {ticksNew})", connection );
+				using( var db = new Database( connection ) )
+				{
+					var ticksOld = DateTime.Now.AddDays( -1 ).Ticks;
+					var ticksNew = DateTime.Now.AddDays( 1 ).Ticks;
+					DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {ticksOld})", connection );
+					DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key1', 123, {ticksNew})", connection );
 
-				// Act
-				await db.Cleanup();
+					// Act
+					await db.Cleanup();
 
-				// Assert
-				var fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'key'", connection );
-				Assert.IsNull( fromDb );
+					// Assert
+					var fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'key'", connection );
+					Assert.IsNull( fromDb );
 
-				fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'key1'", connection );
-				Assert.IsNotNull( fromDb );
+					fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'key1'", connection );
+					Assert.IsNotNull( fromDb );
+				}
 			}
 		}
 
@@ -50,15 +52,34 @@ namespace Blitzy.Tests.Models.Db
 		{
 			// Arrange
 			using( var connection = DatabaseHelper.OpenMemoryConnection() )
-			using( var db = new Database( connection ) )
 			{
-				DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {long.MaxValue})", connection );
+				using( var db = new Database( connection ) )
+				{
+					DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {long.MaxValue})", connection );
 
-				// Act
-				int result = await db.Get<int>( "key" );
+					// Act
+					int result = await db.Get<int>( "key" );
 
-				// Assert
-				Assert.AreEqual( 123, result );
+					// Assert
+					Assert.AreEqual( 123, result );
+				}
+			}
+		}
+
+		[TestMethod, TestCategory( "Models.Db" )]
+		public async Task GetReturnsDefaultForNotFoundValueWhenConverting()
+		{
+			// Arrange
+			using( var connection = DatabaseHelper.OpenMemoryConnection() )
+			{
+				using( var db = new Database( connection ) )
+				{
+					// Act
+					var fromDb = await db.Get<int>( "non_existing" );
+
+					// Assert
+					Assert.AreEqual( 0, fromDb );
+				}
 			}
 		}
 
@@ -67,15 +88,17 @@ namespace Blitzy.Tests.Models.Db
 		{
 			// Arrange
 			using( var connection = DatabaseHelper.OpenMemoryConnection() )
-			using( var db = new Database( connection ) )
 			{
-				DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {long.MaxValue})", connection );
+				using( var db = new Database( connection ) )
+				{
+					DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {long.MaxValue})", connection );
 
-				// Act
-				var result = await db.Get<object>( "key" );
+					// Act
+					var result = await db.Get<object>( "key" );
 
-				// Assert
-				Assert.IsNotNull( result );
+					// Assert
+					Assert.IsNotNull( result );
+				}
 			}
 		}
 
@@ -84,13 +107,15 @@ namespace Blitzy.Tests.Models.Db
 		{
 			// Arrange
 			using( var connection = DatabaseHelper.OpenMemoryConnection() )
-			using( var db = new Database( connection ) )
 			{
-				// Act
-				var result = await db.Get<object>( "non existing" );
+				using( var db = new Database( connection ) )
+				{
+					// Act
+					var result = await db.Get<object>( "non existing" );
 
-				// Assert
-				Assert.IsNull( result );
+					// Assert
+					Assert.IsNull( result );
+				}
 			}
 		}
 
@@ -112,18 +137,20 @@ namespace Blitzy.Tests.Models.Db
 		{
 			// Arrange
 			using( var connection = DatabaseHelper.OpenMemoryConnection() )
-			using( var db = new Database( connection ) )
 			{
-				// Act
-				var before = await db.KeyExists( "key" );
+				using( var db = new Database( connection ) )
+				{
+					// Act
+					var before = await db.KeyExists( "key" );
 
-				DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {long.MaxValue})", connection );
+					DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {long.MaxValue})", connection );
 
-				var after = await db.KeyExists( "key" );
+					var after = await db.KeyExists( "key" );
 
-				// Assert
-				Assert.IsFalse( before );
-				Assert.IsTrue( after );
+					// Assert
+					Assert.IsFalse( before );
+					Assert.IsTrue( after );
+				}
 			}
 		}
 
@@ -132,16 +159,18 @@ namespace Blitzy.Tests.Models.Db
 		{
 			// Arrange
 			using( var connection = DatabaseHelper.OpenMemoryConnection() )
-			using( var db = new Database( connection ) )
 			{
-				DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {long.MaxValue})", connection );
+				using( var db = new Database( connection ) )
+				{
+					DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {long.MaxValue})", connection );
 
-				// Act
-				await db.Remove( "key" );
+					// Act
+					await db.Remove( "key" );
 
-				// Assert
-				var fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'key'", connection );
-				Assert.IsNull( fromDb );
+					// Assert
+					var fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'key'", connection );
+					Assert.IsNull( fromDb );
+				}
 			}
 		}
 
@@ -150,13 +179,15 @@ namespace Blitzy.Tests.Models.Db
 		{
 			// Arrange
 			using( var connection = DatabaseHelper.OpenMemoryConnection() )
-			using( var db = new Database( connection ) )
 			{
-				// Act
-				var ex = await ExceptionAssert.Catch<Exception>( async () => await db.Remove( "key" ) );
+				using( var db = new Database( connection ) )
+				{
+					// Act
+					var ex = await ExceptionAssert.Catch<Exception>( async () => await db.Remove( "key" ) );
 
-				// Assert
-				Assert.IsNull( ex );
+					// Assert
+					Assert.IsNull( ex );
+				}
 			}
 		}
 
@@ -165,14 +196,16 @@ namespace Blitzy.Tests.Models.Db
 		{
 			// Arrange
 			using( var connection = DatabaseHelper.OpenMemoryConnection() )
-			using( var db = new Database( connection ) )
 			{
-				// Act
-				await db.Set( "newkey", 123 );
+				using( var db = new Database( connection ) )
+				{
+					// Act
+					await db.Set( "newkey", 123 );
 
-				// Assert
-				var fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'newkey'", connection );
-				Assert.AreEqual( "123", fromDb.ToString() );
+					// Assert
+					var fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'newkey'", connection );
+					Assert.AreEqual( "123", fromDb.ToString() );
+				}
 			}
 		}
 
@@ -181,16 +214,18 @@ namespace Blitzy.Tests.Models.Db
 		{
 			// Arrange
 			using( var connection = DatabaseHelper.OpenMemoryConnection() )
-			using( var db = new Database( connection ) )
 			{
-				DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {long.MaxValue})", connection );
+				using( var db = new Database( connection ) )
+				{
+					DatabaseHelper.NonQuery( $"INSERT INTO data (key, value, expires) VALUES ('key', 123, {long.MaxValue})", connection );
 
-				// Act
-				await db.Set( "key", 345 );
+					// Act
+					await db.Set( "key", 345 );
 
-				// Assert
-				var fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'key'", connection );
-				Assert.AreEqual( "345", fromDb.ToString() );
+					// Assert
+					var fromDb = DatabaseHelper.SelectSingle( "SELECT value FROM data WHERE key = 'key'", connection );
+					Assert.AreEqual( "345", fromDb.ToString() );
+				}
 			}
 		}
 
@@ -199,19 +234,21 @@ namespace Blitzy.Tests.Models.Db
 		{
 			// Arrange
 			using( var connection = DatabaseHelper.OpenMemoryConnection() )
-			using( var db = new Database( connection ) )
 			{
-				// Act
-				await db.Set( "ex_now", 123, DateTime.Now );
-				await db.Set( "no_ex", 123 );
+				using( var db = new Database( connection ) )
+				{
+					// Act
+					await db.Set( "ex_now", 123, DateTime.Now );
+					await db.Set( "no_ex", 123 );
 
-				// Assert
-				var fromDb = DatabaseHelper.SelectSingle( "SELECT expires FROM data WHERE key = 'no_ex'", connection );
-				Assert.AreEqual( DateTime.MaxValue.Ticks, fromDb );
+					// Assert
+					var fromDb = DatabaseHelper.SelectSingle( "SELECT expires FROM data WHERE key = 'no_ex'", connection );
+					Assert.AreEqual( DateTime.MaxValue.Ticks, fromDb );
 
-				fromDb = DatabaseHelper.SelectSingle( "SELECT expires FROM data WHERE key = 'ex_now'", connection );
-				Assert.AreNotEqual( DateTime.MaxValue.Ticks, fromDb );
-				Assert.AreNotEqual( DateTime.Now.Ticks, fromDb );
+					fromDb = DatabaseHelper.SelectSingle( "SELECT expires FROM data WHERE key = 'ex_now'", connection );
+					Assert.AreNotEqual( DateTime.MaxValue.Ticks, fromDb );
+					Assert.AreNotEqual( DateTime.Now.Ticks, fromDb );
+				}
 			}
 		}
 	}

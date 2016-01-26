@@ -109,6 +109,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AsyncErrorHandler.cs" />
+    <Compile Include="Behaviors\CallbackOnLoad.cs" />
     <Compile Include="Behaviors\CloseWindow.cs" />
     <Compile Include="Behaviors\CommandTextBox.cs" />
     <Compile Include="Behaviors\ScrollSelectedItemIntoView.cs" />
@@ -123,10 +125,15 @@
     </Compile>
     <Compile Include="Services\ServiceRepository.cs" />
     <Compile Include="Services\SettingsDialogService.cs" />
+    <Compile Include="Utilities\AppThemes.cs" />
+    <Compile Include="ViewModels\ILoadCallback.cs" />
     <Compile Include="ViewModels\IWindowController.cs" />
     <Compile Include="ViewModels\Main\CommandController.cs" />
     <Compile Include="ViewModels\Main\InputProcessor.cs" />
     <Compile Include="ViewModels\Main\MainViewModel.cs" />
+    <Compile Include="ViewModels\Settings\Core\BehaviorSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\Core\UpdateSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\Core\VisualSettingsViewModel.cs" />
     <Compile Include="Views\GenericTemplateSelector.cs" />
     <Compile Include="Views\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
@@ -154,7 +161,7 @@
     <Compile Include="Utilities\TypeActivator.cs" />
     <Compile Include="ViewModels\Main\CommandViewModel.cs" />
     <Compile Include="ViewModels\Settings\AboutViewModel.cs" />
-    <Compile Include="ViewModels\Settings\CoreSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\Core\CoreSettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\PluginListViewModel.cs" />
     <Compile Include="ViewModels\Settings\SettingsDialogViewModel.cs" />
     <Compile Include="ViewModels\TreeViewItemViewModel.cs" />
@@ -210,6 +217,7 @@
     <Error Condition="!Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\dotnet\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.99.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.99.0\build\net46\System.Data.SQLite.Core.targets'))" />
     <Error Condition="!Exists('..\packages\Stamp.Fody.1.2.4\build\dotnet\Stamp.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stamp.Fody.1.2.4\build\dotnet\Stamp.Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\AsyncErrorHandler.Fody.1.0.10.0\build\dotnet\AsyncErrorHandler.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AsyncErrorHandler.Fody.1.0.10.0\build\dotnet\AsyncErrorHandler.Fody.targets'))" />
   </Target>
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.99.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.99.0\build\net46\System.Data.SQLite.Core.targets')" />
   <UsingTask TaskName="CosturaCleanup" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">
@@ -249,6 +257,7 @@ foreach (var item in filesToCleanup)
     <CosturaCleanup Config="FodyWeavers.xml" Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
   </Target>
   <Import Project="..\packages\Stamp.Fody.1.2.4\build\dotnet\Stamp.Fody.targets" Condition="Exists('..\packages\Stamp.Fody.1.2.4\build\dotnet\Stamp.Fody.targets')" />
+  <Import Project="..\packages\AsyncErrorHandler.Fody.1.0.10.0\build\dotnet\AsyncErrorHandler.Fody.targets" Condition="Exists('..\packages\AsyncErrorHandler.Fody.1.0.10.0\build\dotnet\AsyncErrorHandler.Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

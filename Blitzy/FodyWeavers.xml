@@ -3,4 +3,5 @@
   <Anotar.NLog />
   <Costura />
   <Stamp />
+  <AsyncErrorHandler />
 </Weavers>
