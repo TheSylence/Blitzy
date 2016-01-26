@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
+using System.Text;
 
-namespace Blitzy.Models.Plugins
+namespace Blitzy.Models.Db
 {
 	partial class SchemaGenerator
 	{
@@ -12,6 +13,24 @@ namespace Blitzy.Models.Plugins
 			Connection = connection;
 
 			UpdateQueries = GenerateQueries().ToList();
+		}
+
+		private static string InsertInto( string table, Dictionary<string,string> keyValuePairs )
+		{
+			var sb = new StringBuilder();
+
+			sb.Append( $"INSERT INTO {table} (" );
+			sb.Append( string.Join( ",", keyValuePairs.Keys.Select( Escape ) ) );
+			sb.Append( ") VALUES (" );
+			sb.Append( string.Join( ",", keyValuePairs.Values.Select( Escape ) ) );
+			sb.Append( ");" );
+
+			return sb.ToString();
+		}
+
+		static string Escape( string value )
+		{
+			return $"\"{value}\"";
 		}
 
 		public void CreateSchema()

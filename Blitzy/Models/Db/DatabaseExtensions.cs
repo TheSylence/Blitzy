@@ -1,6 +1,6 @@
 ﻿using System.Data.SQLite;
 
-namespace Blitzy.Models.Plugins
+namespace Blitzy.Models.Db
 {
 	internal static class DatabaseExtensions
 	{
