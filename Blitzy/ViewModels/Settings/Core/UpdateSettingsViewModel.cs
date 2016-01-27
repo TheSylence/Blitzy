@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Blitzy.Models;
 using Blitzy.Resources;
@@ -6,12 +7,22 @@ using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Blitzy.ViewModels.Settings.Core
 {
-	internal class UpdateSettingsViewModel : TreeViewItemViewModel
+	internal class UpdateSettingsViewModel : SettingsSectionViewModel
 	{
-		public UpdateSettingsViewModel( ITreeViewItemViewModel parent, ISettings settings ) : base( parent, Strings.Updates )
+		public UpdateSettingsViewModel( ITreeViewItemViewModel parent, ISettings settings ) : base( parent, settings, Strings.Updates )
 		{
 			EnableUpdates = settings.CheckForUpdates;
 			IncludeBetaReleases = settings.PreviewUpdates;
+
+			ClearUnsavedChanges();
+		}
+
+		protected override Task OnSave()
+		{
+			Settings.CheckForUpdates = EnableUpdates;
+			Settings.PreviewUpdates = IncludeBetaReleases;
+
+			return Task.CompletedTask;
 		}
 
 		private void ExecuteCheckForUpdatesCommand()
@@ -32,6 +43,7 @@ namespace Blitzy.ViewModels.Settings.Core
 
 				_EnableUpdates = value;
 				RaisePropertyChanged();
+				MarkPropertyAsChanged( nameof( EnableUpdates ) );
 			}
 		}
 
@@ -47,6 +59,7 @@ namespace Blitzy.ViewModels.Settings.Core
 
 				_IncludeBetaReleases = value;
 				RaisePropertyChanged();
+				MarkPropertyAsChanged( nameof( IncludeBetaReleases ) );
 			}
 		}
 

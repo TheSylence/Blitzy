@@ -139,11 +139,16 @@
     <Compile Include="ViewModels\Settings\Core\GeneralSettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\Core\UpdateSettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\Core\VisualSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\ISettingsSectionViewModel.cs" />
     <Compile Include="ViewModels\Settings\LicensesViewModel.cs" />
     <Compile Include="Views\GenericTemplateSelector.cs" />
     <Compile Include="Views\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
+    <Page Include="Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

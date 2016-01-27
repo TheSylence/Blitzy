@@ -115,6 +115,33 @@ namespace Blitzy.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close window after command execution.
+        /// </summary>
+        internal static string CloseAfterExecution {
+            get {
+                return ResourceManager.GetString("CloseAfterExecution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close window when escape key is pressed.
+        /// </summary>
+        internal static string CloseOnEscape {
+            get {
+                return ResourceManager.GetString("CloseOnEscape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close window when it loses focus.
+        /// </summary>
+        internal static string CloseOnFocusLost {
+            get {
+                return ResourceManager.GetString("CloseOnFocusLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         internal static string General {
@@ -138,6 +165,15 @@ namespace Blitzy.Resources {
         internal static string InfoVersionFormat {
             get {
                 return ResourceManager.GetString("InfoVersionFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keep input after command execution.
+        /// </summary>
+        internal static string KeepInputContent {
+            get {
+                return ResourceManager.GetString("KeepInputContent", resourceCulture);
             }
         }
         
@@ -210,6 +246,15 @@ namespace Blitzy.Resources {
         internal static string Theme {
             get {
                 return ResourceManager.GetString("Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are {0} unsaved changes.
+        /// </summary>
+        internal static string UnsavedChangesCountFormat {
+            get {
+                return ResourceManager.GetString("UnsavedChangesCountFormat", resourceCulture);
             }
         }
         

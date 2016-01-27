@@ -15,9 +15,11 @@ namespace Blitzy.ViewModels.Settings
 	internal interface ISettingsDialogViewModel : IWindowController, ILoadCallback
 	{
 		ICommand CancelCommand { get; }
+		bool HasUnsavedChanges { get; }
 		ICommand SaveCommand { get; }
 		ITreeViewItemViewModel SelectedItem { get; }
 		ICollection<ITreeViewItemViewModel> TopLevelItems { get; }
+		int UnsavedChanges { get; }
 	}
 
 	internal class SettingsDialogViewModel : ObservableObject, ISettingsDialogViewModel
@@ -47,6 +49,25 @@ namespace Blitzy.ViewModels.Settings
 			}
 		}
 
+		int CalculateUnsavedChanges( ITreeViewItemViewModel parent = null )
+		{
+			var items = parent != null ? parent.Children : TopLevelItems;
+
+			int count = 0;
+			foreach( var item in items )
+			{
+				var section = item as ISettingsSectionViewModel;
+				if( section != null )
+				{
+					count += section.UnsavedChanges;
+				}
+
+				count += CalculateUnsavedChanges( item );
+			}
+
+			return count;
+		}
+
 		private bool CanExecuteSaveCommand()
 		{
 			return true;
@@ -64,10 +85,15 @@ namespace Blitzy.ViewModels.Settings
 
 		private void Item_SelectionChanged( object sender, TreeViewSelectionEventArgs e )
 		{
+			UnsavedChanges = CalculateUnsavedChanges();
+
 			SelectedItem = e.SelectedNode;
 		}
 
 		public ICommand CancelCommand => _CancelCommand ?? ( _CancelCommand = new RelayCommand( ExecuteCancelCommand ) );
+
+		public bool HasUnsavedChanges => UnsavedChanges > 0;
+
 		public ICommand SaveCommand => _SaveCommand ?? ( _SaveCommand = new RelayCommand( ExecuteSaveCommand, CanExecuteSaveCommand ) );
 
 		public ITreeViewItemViewModel SelectedItem
@@ -86,7 +112,25 @@ namespace Blitzy.ViewModels.Settings
 		}
 
 		public ICollection<ITreeViewItemViewModel> TopLevelItems { get; }
+
+		public int UnsavedChanges
+		{
+			[DebuggerStepThrough] get { return _UnsavedChanges; }
+			set
+			{
+				if( _UnsavedChanges == value )
+				{
+					return;
+				}
+
+				_UnsavedChanges = value;
+				RaisePropertyChanged();
+				RaisePropertyChanged( nameof( HasUnsavedChanges ) );
+			}
+		}
+
 		private readonly IPluginContainer PluginContainer;
+
 		private readonly ISettings Settings;
 
 		[DebuggerBrowsable( DebuggerBrowsableState.Never )] private RelayCommand _CancelCommand;
@@ -94,5 +138,7 @@ namespace Blitzy.ViewModels.Settings
 		[DebuggerBrowsable( DebuggerBrowsableState.Never )] private RelayCommand _SaveCommand;
 
 		[DebuggerBrowsable( DebuggerBrowsableState.Never )] private ITreeViewItemViewModel _SelectedItem;
+
+		[DebuggerBrowsable( DebuggerBrowsableState.Never )] private int _UnsavedChanges;
 	}
 }

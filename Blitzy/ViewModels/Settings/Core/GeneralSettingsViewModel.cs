@@ -1,12 +1,18 @@
 using Blitzy.Models;
 using Blitzy.Resources;
+using System.Threading.Tasks;
 
 namespace Blitzy.ViewModels.Settings.Core
 {
-	class GeneralSettingsViewModel : TreeViewItemViewModel
+	internal class GeneralSettingsViewModel : SettingsSectionViewModel
 	{
-		public GeneralSettingsViewModel( ITreeViewItemViewModel parent, ISettings settings ) : base( parent, Strings.General )
+		public GeneralSettingsViewModel( ITreeViewItemViewModel parent, ISettings settings ) : base( parent, settings, Strings.General )
 		{
+		}
+
+		protected override Task OnSave()
+		{
+			return Task.CompletedTask;
 		}
 	}
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media;
 using Blitzy.Models;
 using Blitzy.Resources;
@@ -17,9 +18,9 @@ namespace Blitzy.ViewModels.Settings.Core
 		public string Name { get; set; }
 	}
 
-	internal class VisualSettingsViewModel : TreeViewItemViewModel
+	internal class VisualSettingsViewModel : SettingsSectionViewModel
 	{
-		public VisualSettingsViewModel( ITreeViewItemViewModel parent, ISettings settings ) : base( parent, Strings.Visual )
+		public VisualSettingsViewModel( ITreeViewItemViewModel parent, ISettings settings ) : base( parent, settings, Strings.Visual )
 		{
 			// TODO: DI?
 			Themes = new AppThemes();
@@ -29,6 +30,16 @@ namespace Blitzy.ViewModels.Settings.Core
 
 			_SelectedTheme = AvailableThemes.FirstOrDefault( t => t.Name == settings.Theme );
 			_SelectedAccent = AvailableAccents.FirstOrDefault( t => t.Name == settings.Accent );
+
+			ClearUnsavedChanges();
+		}
+
+		protected override Task OnSave()
+		{
+			Settings.Theme = SelectedTheme.Name;
+			Settings.Accent = SelectedAccent.Name;
+
+			return Task.CompletedTask;
 		}
 
 		public ICollection<ColorItem> AvailableAccents { get; }
@@ -46,6 +57,7 @@ namespace Blitzy.ViewModels.Settings.Core
 
 				_SelectedAccent = value;
 				RaisePropertyChanged();
+				MarkPropertyAsChanged( nameof( SelectedAccent ) );
 
 				Themes.ChangeStyle( SelectedTheme?.Name, SelectedAccent?.Name );
 			}
@@ -63,6 +75,7 @@ namespace Blitzy.ViewModels.Settings.Core
 
 				_SelectedTheme = value;
 				RaisePropertyChanged();
+				MarkPropertyAsChanged( nameof( SelectedTheme ) );
 
 				Themes.ChangeStyle( SelectedTheme?.Name, SelectedAccent?.Name );
 			}

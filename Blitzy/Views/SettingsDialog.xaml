@@ -81,6 +81,23 @@
 								</StackPanel>
 							</DataTemplate>
 						</local:GenericTemplateSelectorItem>
+						<local:GenericTemplateSelectorItem TemplatedType="core:BehaviorSettingsViewModel">
+							<DataTemplate DataType="core:BehaviorSettingsViewModel">
+								<StackPanel Orientation="Vertical">
+									<StackPanel.Resources>
+										<Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+											<Setter Property="Margin" Value="5" />
+										</Style>
+									</StackPanel.Resources>
+
+									<CheckBox IsChecked="{Binding CloseAfterExecution, Mode=TwoWay}" Content="{lex:Loc CloseAfterExecution}" />
+									<CheckBox IsChecked="{Binding CloseOnFocusLost, Mode=TwoWay}" Content="{lex:Loc CloseOnFocusLost}" />
+									<CheckBox IsChecked="{Binding CloseOnEscape, Mode=TwoWay}" Content="{lex:Loc CloseOnEscape}" />
+
+									<CheckBox IsChecked="{Binding KeepInputContent, Mode=TwoWay}" Content="{lex:Loc KeepInputContent}" />
+								</StackPanel>
+							</DataTemplate>
+						</local:GenericTemplateSelectorItem>
 						<local:GenericTemplateSelectorItem TemplatedType="settings:LicensesViewModel">
 							<DataTemplate DataType="settings:LicensesViewModel">
 								<Grid>
@@ -147,15 +164,22 @@
 			</ContentControl>
 		</ScrollViewer>
 
-		<StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right">
-			<StackPanel.Resources>
-				<Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-					<Setter Property="MinWidth" Value="75" />
-					<Setter Property="Margin" Value="5" />
-				</Style>
-			</StackPanel.Resources>
-			<Button Content="Save" IsDefault="True" Command="{Binding SaveCommand}" />
-			<Button Content="Cancel" IsCancel="True" Command="{Binding CancelCommand}" />
-		</StackPanel>
+		<DockPanel Grid.Row="1" Grid.Column="2">
+			<StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" DockPanel.Dock="Right">
+				<StackPanel.Resources>
+					<Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+						<Setter Property="MinWidth" Value="75" />
+						<Setter Property="Margin" Value="5" />
+					</Style>
+				</StackPanel.Resources>
+				<Button Content="Save" IsDefault="True" Command="{Binding SaveCommand}" />
+				<Button Content="Cancel" IsCancel="True" Command="{Binding CancelCommand}" />
+			</StackPanel>
+			
+			<TextBlock Text="{Binding UnsavedChanges, StringFormat={lex:Loc UnsavedChangesCountFormat}}" DockPanel.Dock="Left" 
+					   VerticalAlignment="Center" Margin="5,0" FontSize="{DynamicResource NormalFontSize}"
+					   Visibility="{Binding HasUnsavedChanges, Converter={StaticResource BoolToVisibleConv}}" />
+		</DockPanel>
+		
 	</Grid>
 </controls:MetroWindow>

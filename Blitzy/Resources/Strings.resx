@@ -157,4 +157,19 @@
   <data name="Licenses" xml:space="preserve">
     <value>Licenses</value>
   </data>
+  <data name="CloseAfterExecution" xml:space="preserve">
+    <value>Close window after command execution</value>
+  </data>
+  <data name="CloseOnFocusLost" xml:space="preserve">
+    <value>Close window when it loses focus</value>
+  </data>
+  <data name="CloseOnEscape" xml:space="preserve">
+    <value>Close window when escape key is pressed</value>
+  </data>
+  <data name="KeepInputContent" xml:space="preserve">
+    <value>Keep input after command execution</value>
+  </data>
+  <data name="UnsavedChangesCountFormat" xml:space="preserve">
+    <value>There are {0} unsaved changes</value>
+  </data>
 </root>
