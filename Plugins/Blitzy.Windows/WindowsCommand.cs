@@ -1,16 +1,19 @@
-﻿using System;
+﻿using Blitzy.PluginInterfaces;
+using Blitzy.PluginInterfaces.Commands;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Blitzy.PluginInterfaces.Commands;
+using System.Windows;
 
 namespace Blitzy.Windows
 {
 	internal class WindowsCommand : CommandNode
 	{
-		public WindowsCommand( CommandType type )
+		public WindowsCommand( CommandType type, IDatabase db )
 		{
 			CommandType = type;
+			Database = db;
 		}
 
 		/// <summary>
@@ -21,16 +24,27 @@ namespace Blitzy.Windows
 		/// <returns>Result of the execution</returns>
 		public override async Task<CommandResult> Execute( string data, bool primary )
 		{
+			if( await Database.Get<bool>( CommandKeys[CommandType] ) )
+			{
+				var result = MessageBox.Show( "Do you really want to proceed with this operation?", "Confirm" );
+				if( result != MessageBoxResult.OK )
+				{
+					return CommandResult.Success;
+				}
+			}
+
 			var info = new ProcessStartInfo();
 
 			switch( CommandType )
 			{
 			case CommandType.Shutdown:
 				info.FileName = "shutdown";
+				info.Arguments = "-s -t 00";
 				break;
 
 			case CommandType.Restart:
 				info.FileName = "shutdown";
+				info.Arguments = "-r -t 00";
 				break;
 
 			case CommandType.Logoff:
@@ -75,6 +89,13 @@ namespace Blitzy.Windows
 			{CommandType.Logoff, "Logoff the currently logged in user"}
 		};
 
+		private static readonly Dictionary<CommandType, string> CommandKeys = new Dictionary<CommandType, string>
+		{
+			{CommandType.Shutdown, WindowsSettings.ShutdownKey},
+			{CommandType.Restart, WindowsSettings.RestartKey},
+			{CommandType.Logoff, WindowsSettings.LogoffKey}
+		};
+
 		private static readonly Dictionary<CommandType, string> CommandNames = new Dictionary<CommandType, string>
 		{
 			{CommandType.Shutdown, "Shutdown"},
@@ -83,5 +104,6 @@ namespace Blitzy.Windows
 		};
 
 		private readonly CommandType CommandType;
+		private readonly IDatabase Database;
 	}
 }

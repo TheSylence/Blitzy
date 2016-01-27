@@ -8,8 +8,18 @@ namespace Blitzy.PluginInterfaces
 	/// <summary>
 	///     Implement this interface to provide a plugin for Blitzy.
 	/// </summary>
+	/// <remarks>
+	///     Make sure that the class implementing this interface has an accessable default constructor
+	///     that can be used to instanciate your plugin.
+	/// </remarks>
 	public interface IPlugin
 	{
+		/// <summary>
+		///     Called to retrieve all top command nodes your plugin offers.
+		/// </summary>
+		/// <returns></returns>
+		IEnumerable<ICommandNode> GetNodes();
+
 		/// <summary>
 		///     Called when the plugin is being loaded.
 		///     Use this to check for prequisites or to start any background activity if you plugin needs one.
@@ -53,11 +63,5 @@ namespace Blitzy.PluginInterfaces
 		///     Gets a website where the user may get further information about your plugin.
 		/// </summary>
 		Uri Website { get; }
-
-		/// <summary>
-		/// Called to retrieve all top command nodes your plugin offers.
-		/// </summary>
-		/// <returns></returns>
-		IEnumerable<ICommandNode> GetNodes();
 	}
 }

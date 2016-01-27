@@ -1,9 +1,9 @@
-﻿using Blitzy.PluginInterfaces;
-using Blitzy.PluginInterfaces.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using Blitzy.PluginInterfaces;
+using Blitzy.PluginInterfaces.Commands;
 
 namespace Blitzy.Windows
 {
@@ -15,9 +15,9 @@ namespace Blitzy.Windows
 		/// <returns></returns>
 		public IEnumerable<ICommandNode> GetNodes()
 		{
-			yield return new WindowsCommand( CommandType.Shutdown );
-			yield return new WindowsCommand( CommandType.Restart );
-			yield return new WindowsCommand( CommandType.Logoff );
+			yield return new WindowsCommand( CommandType.Shutdown, Host.Database );
+			yield return new WindowsCommand( CommandType.Restart, Host.Database );
+			yield return new WindowsCommand( CommandType.Logoff, Host.Database );
 		}
 
 		/// <summary>
@@ -31,6 +31,7 @@ namespace Blitzy.Windows
 		/// </remarks>
 		public Task Load( IPluginHost host )
 		{
+			Host = host;
 			UserSettings = new WindowsSettings( host.Database );
 
 			return Task.CompletedTask;
@@ -71,5 +72,7 @@ namespace Blitzy.Windows
 		///     Gets a website where the user may get further information about your plugin.
 		/// </summary>
 		public Uri Website => new Uri( "http://btbsoft.org" );
+
+		private IPluginHost Host;
 	}
 }
