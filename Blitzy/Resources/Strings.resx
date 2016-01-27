@@ -151,4 +151,10 @@
   <data name="Accent" xml:space="preserve">
     <value>Accent</value>
   </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Licenses" xml:space="preserve">
+    <value>Licenses</value>
+  </data>
 </root>

@@ -81,6 +81,26 @@
 								</StackPanel>
 							</DataTemplate>
 						</local:GenericTemplateSelectorItem>
+						<local:GenericTemplateSelectorItem TemplatedType="settings:LicensesViewModel">
+							<DataTemplate DataType="settings:LicensesViewModel">
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition />
+									</Grid.ColumnDefinitions>
+
+									<ListView ItemsSource="{Binding Licenses}" SelectedItem="{Binding SelectedLicense, Mode=TwoWay}">
+										<ListView.ItemTemplate>
+											<DataTemplate DataType="settings:LicenseItem">
+												<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="5,0" FontSize="{DynamicResource NormalFontSize}" />
+											</DataTemplate>
+										</ListView.ItemTemplate>
+									</ListView>
+
+									<TextBlock TextWrapping="Wrap" Text="{Binding SelectedLicense.Text}" FontSize="{DynamicResource NormalFontSize}" Grid.Column="1" />
+								</Grid>
+							</DataTemplate>
+						</local:GenericTemplateSelectorItem>
 						<local:GenericTemplateSelectorItem TemplatedType="core:VisualSettingsViewModel">
 							<DataTemplate DataType="core:VisualSettingsViewModel">
 								<StackPanel Orientation="Vertical">

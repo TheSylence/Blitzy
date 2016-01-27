@@ -11,6 +11,8 @@ namespace Blitzy.ViewModels.Settings
 	{
 		public AboutViewModel() : base( null, Strings.About )
 		{
+			Children.Add( new LicensesViewModel( this ) );
+
 			var asm = Assembly.GetExecutingAssembly();
 			var name = asm.GetName();
 

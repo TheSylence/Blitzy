@@ -115,6 +115,15 @@ namespace Blitzy.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Build on {0}.
         /// </summary>
         internal static string InfoBuildDateFormat {
@@ -138,6 +147,15 @@ namespace Blitzy.Resources {
         internal static string LastUpdateCheckFormat {
             get {
                 return ResourceManager.GetString("LastUpdateCheckFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Licenses.
+        /// </summary>
+        internal static string Licenses {
+            get {
+                return ResourceManager.GetString("Licenses", resourceCulture);
             }
         }
         
