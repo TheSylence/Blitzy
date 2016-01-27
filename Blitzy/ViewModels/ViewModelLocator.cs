@@ -1,9 +1,11 @@
-﻿using Blitzy.ViewModels.Main;
+﻿using System.Diagnostics.CodeAnalysis;
+using Blitzy.ViewModels.Main;
 using Blitzy.ViewModels.Settings;
 using Ninject;
 
 namespace Blitzy.ViewModels
 {
+	[ExcludeFromCodeCoverage]
 	internal class ViewModelLocator
 	{
 		public ViewModelLocator()

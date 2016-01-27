@@ -1,9 +1,11 @@
-﻿using Blitzy.ViewModels;
+﻿using System.Diagnostics.CodeAnalysis;
+using Blitzy.ViewModels;
 using System.Windows;
 using System.Windows.Interactivity;
 
 namespace Blitzy.Behaviors
 {
+	[ExcludeFromCodeCoverage]
 	internal class CallbackOnLoad : Behavior<FrameworkElement>
 	{
 		protected override void OnAttached()

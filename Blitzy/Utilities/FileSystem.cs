@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 
@@ -11,6 +12,7 @@ namespace Blitzy.Utilities
 		IAssembly LoadAssemblyFromFile( string fileName );
 	}
 
+	[ExcludeFromCodeCoverage]
 	internal class FileSystem : IFileSystem
 	{
 		public IAssembly LoadAssemblyFromFile( string fileName )

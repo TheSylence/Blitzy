@@ -13,6 +13,7 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -24,6 +25,7 @@ namespace Blitzy
 	/// <summary>
 	///     Interaction logic for App.xaml
 	/// </summary>
+	[ExcludeFromCodeCoverage]
 	public partial class App
 	{
 		protected override void OnStartup( StartupEventArgs e )

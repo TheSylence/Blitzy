@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blitzy.Utilities
 {
@@ -7,6 +8,7 @@ namespace Blitzy.Utilities
 		TType CreateInstance<TType>( Type type ) where TType : class;
 	}
 
+	[ExcludeFromCodeCoverage]
 	internal class TypeActivator : ITypeActivator
 	{
 		public TType CreateInstance<TType>( Type type ) where TType : class

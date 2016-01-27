@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Blitzy.Utilities
@@ -9,6 +10,7 @@ namespace Blitzy.Utilities
 		IEnumerable<Type> GetTypes();
 	}
 
+	[ExcludeFromCodeCoverage]
 	internal class AssemblyWrapper : IAssembly
 	{
 		public AssemblyWrapper( Assembly wrapped )
