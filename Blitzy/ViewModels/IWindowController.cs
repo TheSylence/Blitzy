@@ -9,14 +9,14 @@ namespace Blitzy.ViewModels
 
 	internal class CloseEventArgs : EventArgs
 	{
-		public CloseEventArgs( bool? result = null )
+		private CloseEventArgs( bool? result = null )
 		{
 			Result = result;
 		}
 
 		public bool? Result { get; }
 
-		public static CloseEventArgs Cancel = new CloseEventArgs( false );
-		public static CloseEventArgs Ok = new CloseEventArgs( true );
+		public static readonly CloseEventArgs Cancel = new CloseEventArgs( false );
+		public static readonly CloseEventArgs Ok = new CloseEventArgs( true );
 	}
 }

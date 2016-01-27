@@ -9,13 +9,33 @@ namespace Blitzy.Behaviors
 {
 	[ExcludeFromCodeCoverage]
 	internal class CommandTextBox : Behavior<TextBox>
-
 	{
-		public CommandTextBox()
+		[ExcludeFromCodeCoverage]
+		protected override void OnAttached()
 		{
+			base.OnAttached();
+
+			AssociatedObject.PreviewKeyDown += ( s, e ) => { e.Handled = OnPreviewKeyDown( e.Key ); };
 		}
 
-		internal bool OnPreviewKeyDown( Key key )
+		private void AutoComplete()
+		{
+			if( InputProcessor == null )
+			{
+				return;
+			}
+
+			AssociatedObject.Text = InputProcessor.AutoCompleteInput( AssociatedObject.Text,
+				Controller.CurrentCommand?.Command );
+			AssociatedObject.CaretIndex = AssociatedObject.Text.Length;
+		}
+
+		private async void ExecuteCommand( bool primary )
+		{
+			await Controller.ExecuteCommand( primary, AssociatedObject.Text );
+		}
+
+		private bool OnPreviewKeyDown( Key key )
 		{
 			switch( key )
 			{
@@ -42,31 +62,6 @@ namespace Blitzy.Behaviors
 			return true;
 		}
 
-		[ExcludeFromCodeCoverage]
-		protected override void OnAttached()
-		{
-			base.OnAttached();
-
-			AssociatedObject.PreviewKeyDown += ( s, e ) => { e.Handled = OnPreviewKeyDown( e.Key ); };
-		}
-
-		private void AutoComplete()
-		{
-			if( InputProcessor == null )
-			{
-				return;
-			}
-
-			AssociatedObject.Text = InputProcessor.AutoCompleteInput( AssociatedObject.Text,
-				Controller.CurrentCommand?.Command );
-			AssociatedObject.CaretIndex = AssociatedObject.Text.Length;
-		}
-
-		private async void ExecuteCommand( bool primary )
-		{
-			await Controller.ExecuteCommand( primary, AssociatedObject.Text );
-		}
-
 		private void SelectNextCommand()
 		{
 			Controller.CurrentCommandIndex++;
@@ -90,8 +85,9 @@ namespace Blitzy.Behaviors
 		}
 
 		public static readonly DependencyProperty ControllerProperty = DependencyProperty.Register( "Controller",
-					typeof( ICommandController ), typeof( CommandTextBox ), new PropertyMetadata( null ) );
+			typeof( ICommandController ), typeof( CommandTextBox ), new PropertyMetadata( null ) );
 
-		public static readonly DependencyProperty InputProcessorProperty = DependencyProperty.Register( "InputProcessor", typeof( IInputProcessor ), typeof( CommandTextBox ), new PropertyMetadata( null ) );
+		public static readonly DependencyProperty InputProcessorProperty = DependencyProperty.Register( "InputProcessor", typeof( IInputProcessor ),
+			typeof( CommandTextBox ), new PropertyMetadata( null ) );
 	}
 }

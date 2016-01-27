@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
@@ -28,15 +29,9 @@ namespace Blitzy.Views
 				return null;
 			}
 
-			foreach( GenericTemplateSelectorItem tpl in Templates )
-			{
-				if( tpl.TemplatedType != null && IsDerived( item.GetType(), tpl.TemplatedType ) )
-				{
-					return tpl.Template;
-				}
-			}
-
-			return null;
+			return Templates
+				.Where( tpl => tpl.TemplatedType != null && IsDerived( item.GetType(), tpl.TemplatedType ) )
+				.Select( tpl => tpl.Template ).FirstOrDefault();
 		}
 
 		private static bool IsDerived( Type itemType, Type baseType )
@@ -54,6 +49,7 @@ namespace Blitzy.Views
 			return IsDerived( itemType.BaseType, baseType );
 		}
 
+		// ReSharper disable once CollectionNeverUpdated.Global
 		public Collection<GenericTemplateSelectorItem> Templates { get; set; } = new Collection<GenericTemplateSelectorItem>();
 	}
 }

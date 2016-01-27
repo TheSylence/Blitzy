@@ -41,7 +41,5 @@ namespace Blitzy.ViewModels.Settings
 
 		protected ISettings Settings { get; }
 		private readonly HashSet<string> ChangedProperties = new HashSet<string>();
-
-		[System.Diagnostics.DebuggerBrowsable( System.Diagnostics.DebuggerBrowsableState.Never )] private int _UnsavedChanges;
 	}
 }

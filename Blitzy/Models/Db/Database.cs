@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.SQLite;
 using System.Threading.Tasks;
-using Blitzy.Models.Plugins;
 using Blitzy.PluginInterfaces;
 
 namespace Blitzy.Models.Db
@@ -85,7 +84,7 @@ namespace Blitzy.Models.Db
 		{
 			using( var cmd = Connection.CreateCommand() )
 			{
-				cmd.CommandText = $"SELECT expires FROM data WHERE key = @key";
+				cmd.CommandText = "SELECT expires FROM data WHERE key = @key";
 				cmd.AddParameter( "key", key );
 
 				var result = await cmd.ExecuteScalarAsync();

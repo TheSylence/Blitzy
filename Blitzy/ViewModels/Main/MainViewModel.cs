@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows.Input;
 using Blitzy.Services;
 using GalaSoft.MvvmLight;
@@ -8,14 +7,6 @@ using Ninject;
 
 namespace Blitzy.ViewModels.Main
 {
-	internal interface IMainViewModel
-	{
-		ICommandController CommandController { get; }
-		IInputProcessor InputProcessor { get; }
-		string InputText { get; set; }
-		ICommand SettingsCommand { get; }
-	}
-
 	internal class MainViewModel : ViewModelBase, IMainViewModel
 	{
 		public MainViewModel( ICommandController controller, IInputProcessor processor )
@@ -23,7 +14,6 @@ namespace Blitzy.ViewModels.Main
 			CommandController = controller;
 			InputProcessor = processor;
 		}
-
 
 		private void ExecuteSettingsCommand()
 		{

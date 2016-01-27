@@ -126,6 +126,7 @@ namespace Blitzy.Tests.Models.Db
 			string fileName = "???";
 
 			// Act
+			// ReSharper disable once ObjectCreationAsStatement
 			var ex = ExceptionAssert.Catch<ArgumentException>( () => new Database( fileName ) );
 
 			// Assert

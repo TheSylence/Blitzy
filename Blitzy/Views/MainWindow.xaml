@@ -9,7 +9,6 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:main="clr-namespace:Blitzy.ViewModels.Main"
         xmlns:behaviors="clr-namespace:Blitzy.Behaviors" ShowMinButton="False" ShowMaxRestoreButton="False"
-        xmlns:behaviours="http://metro.mahapps.com/winfx/xaml/shared"
         FocusManager.FocusedElement="{Binding ElementName=InputTextBox}"
         mc:Ignorable="d" DataContext="{Binding Main, Source={StaticResource Locator}}"
         Title="Blitzy" Height="350" Width="525">

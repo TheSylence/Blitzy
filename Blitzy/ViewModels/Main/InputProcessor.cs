@@ -104,7 +104,7 @@ namespace Blitzy.ViewModels.Main
 
 			int matches = strGrams.Intersect( otherGrams ).Count();
 
-			return ( 2.0 * matches ) / ( strGrams.Length + otherGrams.Length );
+			return 2.0 * matches / ( strGrams.Length + otherGrams.Length );
 		}
 
 		private static string[] GetNGrams( string str, int n )

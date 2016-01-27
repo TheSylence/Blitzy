@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blitzy.Utilities
 {
@@ -12,7 +9,7 @@ namespace Blitzy.Utilities
 		IEnumerable<Type> GetTypes();
 	}
 
-	class AssemblyWrapper : IAssembly
+	internal class AssemblyWrapper : IAssembly
 	{
 		public AssemblyWrapper( Assembly wrapped )
 		{
