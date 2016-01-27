@@ -12,6 +12,7 @@
         xmlns:behaviors="clr-namespace:Blitzy.Behaviors"
         xmlns:behaviours="http://metro.mahapps.com/winfx/xaml/shared"
         xmlns:core="clr-namespace:Blitzy.ViewModels.Settings.Core"
+        xmlns:converters="clr-namespace:Blitzy.Converters"
         lex:ResxLocalizationProvider.DefaultAssembly="Blitzy"
 		lex:ResxLocalizationProvider.DefaultDictionary="Strings" WindowStartupLocation="CenterOwner"
         mc:Ignorable="d" DataContext="{Binding SettingsDialog, Source={StaticResource Locator}}"
@@ -38,6 +39,8 @@
 		<DataTemplate x:Key="EmptySettingsSections">
 			<TextBlock Text="{lex:Loc PleaseSelectAnEntryFromTheList}" FontSize="{DynamicResource NormalFontSize}" />
 		</DataTemplate>
+		
+		<converters:SettingsEditor x:Key="SettingsEditorConv" />
 	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -155,6 +158,14 @@
 									<TextBlock Text="{Binding LastUpdateCheck, StringFormat={lex:Loc LastUpdateCheckFormat}}" Margin="5,10,5,5" />
 									<Button Content="{lex:Loc CheckForUpdatesNow}" Margin="5" />
 								</StackPanel>
+							</DataTemplate>
+						</local:GenericTemplateSelectorItem>
+						<local:GenericTemplateSelectorItem TemplatedType="settings:PluginSettingsViewModel">
+							<DataTemplate DataType="settings:PluginSettingsViewModel">
+								<Grid>
+									<ContentControl Content="{Binding Content}" Visibility="{Binding HasViewImplementation, Converter={StaticResource BoolToVisibleConv}}"/>
+									<ContentControl Content="{Binding Content, Converter={StaticResource SettingsEditorConv}}" Visibility="{Binding HasViewImplementation, Converter={StaticResource InvertBoolToVisibleConv}}"/>
+								</Grid>
 							</DataTemplate>
 						</local:GenericTemplateSelectorItem>
 						<local:GenericTemplateSelectorItem TemplatedType="settings:PluginListViewModel" Template="{StaticResource EmptySettingsSections}" />

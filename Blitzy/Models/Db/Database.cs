@@ -71,7 +71,7 @@ namespace Blitzy.Models.Db
 					return default(TResult);
 				}
 
-				return (TResult)Convert.ChangeType( result, typeof( TResult ) );
+				return ConvertResult<TResult>( result );
 			}
 		}
 
@@ -126,6 +126,19 @@ namespace Blitzy.Models.Db
 
 				await cmd.ExecuteNonQueryAsync();
 			}
+		}
+
+		static TResult ConvertResult<TResult>( object result )
+		{
+			var strResult = result.ToString();
+			var resultType = typeof( TResult );
+
+			if( resultType == typeof( bool ) )
+			{
+				result = strResult == "1" || strResult == "True";
+			}
+
+			return (TResult)Convert.ChangeType( result, typeof( TResult ) );
 		}
 
 		private void Dispose( bool disposing )

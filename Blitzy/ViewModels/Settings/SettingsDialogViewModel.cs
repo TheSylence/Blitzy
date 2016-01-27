@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Blitzy.Models;
@@ -46,6 +47,11 @@ namespace Blitzy.ViewModels.Settings
 			{
 				item.IsExpanded = true;
 				item.SelectionChanged += Item_SelectionChanged;
+			}
+
+			foreach( var item in TopLevelItems.OfType<ILoadCallback>() )
+			{
+				await item.OnLoad( null );
 			}
 		}
 

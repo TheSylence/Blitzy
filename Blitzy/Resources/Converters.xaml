@@ -1,4 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <BooleanToVisibilityConverter x:Key="BoolToVisibleConv"/>
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Blitzy.Converters">
+	<BooleanToVisibilityConverter x:Key="BoolToVisibleConv" />
+
+	<converters:ConverterChain x:Key="InvertBoolToVisibleConv">
+		<converters:InvertBool />
+		<BooleanToVisibilityConverter />
+	</converters:ConverterChain>
 </ResourceDictionary>

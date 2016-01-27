@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blitzy", "Blitzy\Blitzy.csproj", "{9A252361-FDB6-4D02-8E40-8D5048468E89}"
+	ProjectSection(ProjectDependencies) = postProject
+		{70D623C7-BFFD-4950-8B65-5ACE77774CE7} = {70D623C7-BFFD-4950-8B65-5ACE77774CE7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blitzy.Tests", "Blitzy.Tests\Blitzy.Tests.csproj", "{2CCA34FE-BA58-464B-9BE1-DA7FE94EB1AA}"
 EndProject

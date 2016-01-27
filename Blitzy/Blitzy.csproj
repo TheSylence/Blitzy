@@ -119,6 +119,11 @@
     <Compile Include="Behaviors\CommandTextBox.cs" />
     <Compile Include="Behaviors\ScrollSelectedItemIntoView.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Converters\ControlFactories\BoolFactory.cs" />
+    <Compile Include="Converters\ControlFactories\IControlFactory.cs" />
+    <Compile Include="Converters\ConverterChain.cs" />
+    <Compile Include="Converters\InvertBool.cs" />
+    <Compile Include="Converters\SettingsEditor.cs" />
     <Compile Include="Models\Commands\CommandTree.cs" />
     <Compile Include="Models\Db\DatabaseProvider.cs" />
     <Compile Include="Models\Settings.cs" />

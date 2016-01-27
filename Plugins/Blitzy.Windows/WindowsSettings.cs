@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Blitzy.PluginInterfaces;
 
 namespace Blitzy.Windows
@@ -39,9 +40,15 @@ namespace Blitzy.Windows
 			await Database.Set( LogoffKey, ConfirmLogoff );
 		}
 
+		[DisplayName( "Ask for confirmation before logging off" )]
 		public bool ConfirmLogoff { get; set; }
+
+		[DisplayName( "Ask for confirmation before restarting" )]
 		public bool ConfirmRestart { get; set; }
+
+		[DisplayName( "Ask form confirmation before shutting down" )]
 		public bool ConfirmShutdown { get; set; }
+
 		internal const string LogoffKey = "Blitzy.Windows.ConfirmLogoff";
 		internal const string RestartKey = "Blitzy.Windows.ConfirmRestart";
 		internal const string ShutdownKey = "Blitzy.Windows.ConfirmShutdown";
