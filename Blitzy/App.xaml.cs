@@ -1,8 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Text;
-using System.Windows;
-using Anotar.NLog;
+﻿using Anotar.NLog;
 using Blitzy.Models;
 using Blitzy.Models.Commands;
 using Blitzy.Models.Db;
@@ -16,6 +12,12 @@ using Ninject;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
+using System;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace Blitzy
 {
@@ -33,6 +35,12 @@ namespace Blitzy
 			Kernel = SetupKernel();
 
 			base.OnStartup( e );
+
+			var waitHandle = new ManualResetEvent( false );
+
+			Task.Run( () => Kernel.Get<IPluginContainer>().LoadPlugins() ).ContinueWith( t => waitHandle.Set() );
+
+			waitHandle.WaitOne();
 		}
 
 		static void LogEnvironmentInfo()

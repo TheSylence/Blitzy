@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Anotar.NLog;
@@ -40,7 +41,7 @@ namespace Blitzy.Models.Plugins
 				IAssembly asm;
 				try
 				{
-					asm = FileSystem.LoadAssemblyFromFile( dll );
+					asm = FileSystem.LoadAssemblyFromFile( Path.GetFullPath( dll ) );
 				}
 				catch( Exception ex )
 				{

@@ -9,6 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blitzy.Tests", "Blitzy.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blitzy.PluginInterfaces", "Blitzy.PluginInterfaces\Blitzy.PluginInterfaces.csproj", "{7928C512-B05F-4700-A818-78FA3C411827}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{42B3D98A-427E-41A7-9E94-2F8612CE1EEF}"
+	ProjectSection(SolutionItems) = preProject
+		Plugins\PluginBuild.targets = Plugins\PluginBuild.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blitzy.Windows", "Plugins\Blitzy.Windows\Blitzy.Windows.csproj", "{70D623C7-BFFD-4950-8B65-5ACE77774CE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +34,15 @@ Global
 		{7928C512-B05F-4700-A818-78FA3C411827}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7928C512-B05F-4700-A818-78FA3C411827}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7928C512-B05F-4700-A818-78FA3C411827}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70D623C7-BFFD-4950-8B65-5ACE77774CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70D623C7-BFFD-4950-8B65-5ACE77774CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70D623C7-BFFD-4950-8B65-5ACE77774CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70D623C7-BFFD-4950-8B65-5ACE77774CE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{70D623C7-BFFD-4950-8B65-5ACE77774CE7} = {42B3D98A-427E-41A7-9E94-2F8612CE1EEF}
 	EndGlobalSection
 EndGlobal
