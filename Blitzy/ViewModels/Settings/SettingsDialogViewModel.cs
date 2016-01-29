@@ -7,22 +7,14 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Blitzy.Models;
 using Blitzy.Models.Plugins;
+using Blitzy.Utilities;
 using Blitzy.ViewModels.Settings.Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using Ninject;
 
 namespace Blitzy.ViewModels.Settings
 {
-	internal interface ISettingsDialogViewModel : IWindowController, ILoadCallback
-	{
-		ICommand CancelCommand { get; }
-		bool HasUnsavedChanges { get; }
-		ICommand SaveCommand { get; }
-		ITreeViewItemViewModel SelectedItem { get; }
-		ICollection<ITreeViewItemViewModel> TopLevelItems { get; }
-		int UnsavedChanges { get; }
-	}
-
 	internal class SettingsDialogViewModel : ObservableObject, ISettingsDialogViewModel
 	{
 		public SettingsDialogViewModel( ISettings settings, IPluginContainer pluginContainer )
@@ -35,11 +27,14 @@ namespace Blitzy.ViewModels.Settings
 
 		public event EventHandler<CloseEventArgs> CloseRequested;
 
+		[Inject]
+		public IAppThemes AppThemes { get; set; }
+
 		public async Task OnLoad( object data )
 		{
 			await Settings.Load();
 
-			TopLevelItems.Add( new CoreSettingsViewModel( Settings ) );
+			TopLevelItems.Add( new CoreSettingsViewModel( Settings, AppThemes ) );
 			TopLevelItems.Add( new PluginListViewModel( Settings, PluginContainer ) );
 			TopLevelItems.Add( new AboutViewModel() );
 

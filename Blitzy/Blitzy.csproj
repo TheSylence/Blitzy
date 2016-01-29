@@ -146,6 +146,7 @@
     <Compile Include="ViewModels\Settings\Core\GeneralSettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\Core\UpdateSettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\Core\VisualSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\ISettingsDialogViewModel.cs" />
     <Compile Include="ViewModels\Settings\ISettingsSectionViewModel.cs" />
     <Compile Include="ViewModels\Settings\LicensesViewModel.cs" />
     <Compile Include="Views\GenericTemplateSelector.cs" />

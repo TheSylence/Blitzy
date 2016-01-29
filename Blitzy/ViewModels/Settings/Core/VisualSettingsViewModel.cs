@@ -20,10 +20,9 @@ namespace Blitzy.ViewModels.Settings.Core
 
 	internal class VisualSettingsViewModel : SettingsSectionViewModel
 	{
-		public VisualSettingsViewModel( ITreeViewItemViewModel parent, ISettings settings ) : base( parent, settings, Strings.Visual )
+		public VisualSettingsViewModel( ITreeViewItemViewModel parent, ISettings settings, IAppThemes appThemes ) : base( parent, settings, Strings.Visual )
 		{
-			// TODO: DI?
-			Themes = new AppThemes();
+			Themes = appThemes;
 
 			AvailableAccents = Themes.Accents.ToList();
 			AvailableThemes = Themes.Themes.ToList();

@@ -18,3 +18,4 @@ using Anotar.NLog;
 [assembly: AssemblyVersion( "1.0.0.0" )]
 [assembly: AssemblyFileVersion( "1.0.0.0" )]
 [assembly: InternalsVisibleTo( "Blitzy.Tests" )]
+[assembly: InternalsVisibleTo( "DynamicProxyGenAssembly2" )]
