@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Blitzy.Models.Commands
 {
-	internal class NameMatcher
+	internal static class NameMatcher
 	{
-		public bool Matches( string commandName, string input )
+		public static bool Matches( string commandName, string input )
 		{
 			if( string.IsNullOrWhiteSpace( commandName ) )
 			{

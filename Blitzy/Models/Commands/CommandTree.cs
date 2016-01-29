@@ -17,7 +17,6 @@ namespace Blitzy.Models.Commands
 	{
 		public CommandTree()
 		{
-			NameMatch = new NameMatcher();
 			RootNodes = new List<ICommandNode>();
 		}
 
@@ -32,7 +31,7 @@ namespace Blitzy.Models.Commands
 
 			if( !string.IsNullOrEmpty( input ) )
 			{
-				children = children.Where( cmd => NameMatch.Matches( cmd.Name, input ) ).ToArray();
+				children = children.Where( cmd => NameMatcher.Matches( cmd.Name, input ) ).ToArray();
 			}
 
 			return children;
@@ -40,15 +39,13 @@ namespace Blitzy.Models.Commands
 
 		public IEnumerable<ICommandNode> GetRootNodes( string input )
 		{
-			return RootNodes.Where( cmd => NameMatch.Matches( cmd.Name, input ) );
+			return RootNodes.Where( cmd => NameMatcher.Matches( cmd.Name, input ) );
 		}
 
 		public void InjectRoot( ICommandNode node )
 		{
 			RootNodes.Add( node );
 		}
-
-		private readonly NameMatcher NameMatch;
 
 		private readonly List<ICommandNode> RootNodes;
 	}
