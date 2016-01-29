@@ -1,9 +1,8 @@
-﻿using Blitzy.Models;
+﻿using System.Threading.Tasks;
+using Blitzy.Models;
 using Blitzy.PluginInterfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Threading.Tasks;
 
 namespace Blitzy.Tests.Models
 {
@@ -29,12 +28,13 @@ namespace Blitzy.Tests.Models
 			db.Setup( x => x.Get<bool>( "Blitzy.Settings.ScrollThroughCommandList" ) ).Returns( Task.FromResult( true ) );
 			db.Setup( x => x.Get<bool>( "Blitzy.Settings.ShowTrayIcon" ) ).Returns( Task.FromResult( true ) );
 			db.Setup( x => x.Get<string>( "Blitzy.Settings.Theme" ) ).Returns( Task.FromResult( "the theme" ) );
+			db.Setup( x => x.Get<bool>( "Blitzy.Settings.StoreCommandsInRoot" ) ).Returns( Task.FromResult( true ) );
 
 			var settings = new Settings( db.Object );
 
 			// Act
 			await settings.Load();
-			
+
 			// Assert
 			db.VerifyAll();
 
@@ -51,6 +51,7 @@ namespace Blitzy.Tests.Models
 			Assert.AreEqual( true, settings.ScrollThroughCommandList );
 			Assert.AreEqual( true, settings.ShowTrayIcon );
 			Assert.AreEqual( "the theme", settings.Theme );
+			Assert.AreEqual( true, settings.StoreCommandsInRoot );
 		}
 
 		[TestMethod, TestCategory( "Models" )]
@@ -60,34 +61,36 @@ namespace Blitzy.Tests.Models
 			var db = new Mock<IDatabase>( MockBehavior.Strict );
 
 			db.Setup( x => x.Set( "Blitzy.Settings.Accent", "the accent", null ) ).Returns( Task.CompletedTask ).Verifiable();
-			db.Setup( x => x.Set( "Blitzy.Settings.CheckForUpdates", false, null ) ).Returns( Task.CompletedTask ).Verifiable();
+			db.Setup( x => x.Set( "Blitzy.Settings.CheckForUpdates", true, null ) ).Returns( Task.CompletedTask ).Verifiable();
 			db.Setup( x => x.Set( "Blitzy.Settings.PreviewUpdates", true, null ) ).Returns( Task.CompletedTask ).Verifiable();
-			db.Setup( x => x.Set( "Blitzy.Settings.CloseAfterExecution", false, null ) ).Returns( Task.CompletedTask ).Verifiable();
+			db.Setup( x => x.Set( "Blitzy.Settings.CloseAfterExecution", true, null ) ).Returns( Task.CompletedTask ).Verifiable();
 			db.Setup( x => x.Set( "Blitzy.Settings.CloseOnEscape", true, null ) ).Returns( Task.CompletedTask ).Verifiable();
-			db.Setup( x => x.Set( "Blitzy.Settings.CloseOnFocusLost", false, null ) ).Returns( Task.CompletedTask ).Verifiable();
+			db.Setup( x => x.Set( "Blitzy.Settings.CloseOnFocusLost", true, null ) ).Returns( Task.CompletedTask ).Verifiable();
 			db.Setup( x => x.Set( "Blitzy.Settings.HotKey", "Hotkey", null ) ).Returns( Task.CompletedTask ).Verifiable();
 			db.Setup( x => x.Set( "Blitzy.Settings.HotKeyModifier", "Mod", null ) ).Returns( Task.CompletedTask ).Verifiable();
 			db.Setup( x => x.Set( "Blitzy.Settings.KeepInputContent", true, null ) ).Returns( Task.CompletedTask ).Verifiable();
 			db.Setup( x => x.Set( "Blitzy.Settings.MaxMatchingItems", 123, null ) ).Returns( Task.CompletedTask ).Verifiable();
-			db.Setup( x => x.Set( "Blitzy.Settings.ScrollThroughCommandList", false, null ) ).Returns( Task.CompletedTask ).Verifiable();
+			db.Setup( x => x.Set( "Blitzy.Settings.ScrollThroughCommandList", true, null ) ).Returns( Task.CompletedTask ).Verifiable();
 			db.Setup( x => x.Set( "Blitzy.Settings.ShowTrayIcon", true, null ) ).Returns( Task.CompletedTask ).Verifiable();
 			db.Setup( x => x.Set( "Blitzy.Settings.Theme", "the theme", null ) ).Returns( Task.CompletedTask ).Verifiable();
+			db.Setup( x => x.Set( "Blitzy.Settings.StoreCommandsInRoot", true, null ) ).Returns( Task.CompletedTask ).Verifiable();
 
 			var settings = new Settings( db.Object )
 			{
 				Accent = "the accent",
-				CheckForUpdates = false,
+				CheckForUpdates = true,
 				PreviewUpdates = true,
-				CloseAfterExecution = false,
+				CloseAfterExecution = true,
 				CloseOnEscape = true,
-				CloseOnFocusLost = false,
+				CloseOnFocusLost = true,
 				HotKey = "Hotkey",
 				HotKeyModifier = "Mod",
 				KeepInputContent = true,
 				MaxMatchingItems = 123,
-				ScrollThroughCommandList = false,
+				ScrollThroughCommandList = true,
 				ShowTrayIcon = true,
-				Theme = "the theme"
+				Theme = "the theme",
+				StoreCommandsInRoot = true
 			};
 
 			// Act

@@ -33,7 +33,7 @@ namespace Blitzy.PluginInterfaces.Commands
 		/// Gets a list of all available child nodes
 		/// </summary>
 		/// <returns>List of all availabe child nodes.</returns>
-		public IEnumerable<ICommandNode> GetChildNodes()
+		public virtual IEnumerable<ICommandNode> GetChildNodes()
 		{
 			return Enumerable.Empty<ICommandNode>();
 		}
@@ -44,7 +44,7 @@ namespace Blitzy.PluginInterfaces.Commands
 		/// <value>
 		///     <c>true</c> if this command accepts user input; <c>false</c> if the command only holds other commands.
 		/// </value>
-		public bool AcceptsData { get; } = false;
+		public bool AcceptsData { get; protected set; } = false;
 
 		/// <summary>
 		/// Description of this node

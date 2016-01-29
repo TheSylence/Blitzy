@@ -23,6 +23,7 @@ namespace Blitzy.Models.Db
 			yield return InsertInto( "data", new Dictionary<string, string> { { "key", "Blitzy.Settings.ScrollThroughCommandList" }, { "value", "True" }, { "expires", DateTime.MaxValue.Ticks.ToString() } } );
 			yield return InsertInto( "data", new Dictionary<string, string> { { "key", "Blitzy.Settings.ShowTrayIcon" }, { "value", "True" }, { "expires", DateTime.MaxValue.Ticks.ToString() } } );
 			yield return InsertInto( "data", new Dictionary<string, string> { { "key", "Blitzy.Settings.Theme" }, { "value", "BaseLight" }, { "expires", DateTime.MaxValue.Ticks.ToString() } } );
+			yield return InsertInto( "data", new Dictionary<string, string> { { "key", "Blitzy.Settings.StoreCommandsInRoot" }, { "value", "True" }, { "expires", DateTime.MaxValue.Ticks.ToString() } } );
 		}
 
 		private IEnumerable<string[]> GenerateQueries()

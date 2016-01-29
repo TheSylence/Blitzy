@@ -72,6 +72,22 @@ namespace Blitzy.Models
 		bool ShowTrayIcon { get; set; }
 
 		/// <summary>
+		/// <c>true</c> if plugin commands are directly injected into the root of the command tree.
+		/// </summary>
+		/// <remarks>
+		/// true:
+		///		root -> pluginCommand 1
+		///			 \
+		///				pluginCommand 2
+		///
+		/// false:
+		///		root -> plugin -> pluginCommand 1
+		///						\
+		///							pluginCommand 2
+		/// </remarks>
+		bool StoreCommandsInRoot { get; set; }
+
+		/// <summary>
 		///     Gets or sets the theme that will be used.
 		/// </summary>
 		string Theme { get; set; }
@@ -99,6 +115,7 @@ namespace Blitzy.Models
 			ScrollThroughCommandList = await Database.Get<bool>( "Blitzy.Settings.ScrollThroughCommandList" );
 			ShowTrayIcon = await Database.Get<bool>( "Blitzy.Settings.ShowTrayIcon" );
 			Theme = await Database.Get<string>( "Blitzy.Settings.Theme" );
+			StoreCommandsInRoot = await Database.Get<bool>( "Blitzy.Settings.StoreCommandsInRoot" );
 		}
 
 		public async Task Save()
@@ -116,10 +133,10 @@ namespace Blitzy.Models
 			await Database.Set( "Blitzy.Settings.ScrollThroughCommandList", ScrollThroughCommandList );
 			await Database.Set( "Blitzy.Settings.ShowTrayIcon", ShowTrayIcon );
 			await Database.Set( "Blitzy.Settings.Theme", Theme );
+			await Database.Set( "Blitzy.Settings.StoreCommandsInRoot", StoreCommandsInRoot );
 		}
 
 		public string Accent { get; set; }
-
 		public bool CheckForUpdates { get; set; }
 		public bool CloseAfterExecution { get; set; }
 		public bool CloseOnEscape { get; set; }
@@ -132,6 +149,7 @@ namespace Blitzy.Models
 		public bool PreviewUpdates { get; set; }
 		public bool ScrollThroughCommandList { get; set; }
 		public bool ShowTrayIcon { get; set; }
+		public bool StoreCommandsInRoot { get; set; }
 		public string Theme { get; set; }
 	}
 }

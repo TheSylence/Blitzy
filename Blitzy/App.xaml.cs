@@ -40,12 +40,17 @@ namespace Blitzy
 
 			var waitHandle = new ManualResetEvent( false );
 
-			Task.Run( () => Kernel.Get<IPluginContainer>().LoadPlugins() ).ContinueWith( t => waitHandle.Set() );
+			Task.Run( async () =>
+			{
+				LogTo.Info( "Initializing" );
+				await Kernel.Get<ISettings>().Load();
+				await Kernel.Get<IPluginContainer>().LoadPlugins();
+			} ).ContinueWith( t => waitHandle.Set() );
 
 			waitHandle.WaitOne();
 		}
 
-		static void LogEnvironmentInfo()
+		private static void LogEnvironmentInfo()
 		{
 			LogTo.Info( "Version {0}", Assembly.GetExecutingAssembly().GetName().Version );
 			LogTo.Info( "CLR: {0}", Environment.Version );
@@ -60,8 +65,8 @@ namespace Blitzy
 			kernel.Bind<IDatabase>().ToProvider<DatabaseProvider>().InSingletonScope();
 			kernel.Bind<IPluginContainer>().To<PluginContainer>().InSingletonScope();
 			kernel.Bind<IPluginHost>().To<PluginHost>().InSingletonScope();
-			kernel.Bind<ISettings>().To<Settings>();
-			kernel.Bind<ICommandTree>().To<CommandTree>();
+			kernel.Bind<ISettings>().To<Settings>().InSingletonScope();
+			kernel.Bind<ICommandTree>().To<CommandTree>().InSingletonScope();
 
 			kernel.Bind<IFileSystem>().To<FileSystem>();
 			kernel.Bind<ITypeActivator>().To<TypeActivator>();
@@ -77,7 +82,7 @@ namespace Blitzy
 			return kernel;
 		}
 
-		void SetupLogging()
+		private void SetupLogging()
 		{
 			var config = LogManager.Configuration ?? new LoggingConfiguration();
 			if( config.LoggingRules.Count > 0 )
